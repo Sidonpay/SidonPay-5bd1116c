@@ -35,11 +35,12 @@ Clone down this repository. You will need `NodeJS` and `git` installed globally 
 ## ⚙️ Project Code & Ethics
 
 This is a private project, you can make only make and push changes to the branch that you were assigned. So please ensure the following:
+
 1. Code changes are tested and the product manager updated on milestones assigned to you.
 2. Code changes are pushed to your branch and only your branch
 3. Code changes are reviewed by the team before merging to the main branch.
-    
-Further instructions will be shared as the project progresses. 
+
+Further instructions will be shared as the project progresses.
 
 ## 🌱 Contribution
 
