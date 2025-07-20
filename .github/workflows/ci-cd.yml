@@ -1,0 +1,84 @@
+name: SidonPay CI/CD Pipeline
+
+on:
+  push:
+    branches: [ development, staging, production, main ]
+  pull_request:
+    branches: [ development, staging, production, main ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18'
+        cache: 'npm'
+    
+    - name: Install dependencies
+      run: npm ci
+    
+    - name: Run tests
+      run: npm test
+    
+    - name: Run linting
+      run: npm run lint
+    
+    - name: Build application
+      run: npm run build
+
+  deploy-dev:
+    needs: test
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/development'
+    steps:
+    - uses: actions/checkout@v3
+    - name: Deploy to Development Environment
+      run: |
+        echo "🚀 Deploying SidonPay to Development"
+        echo "Branch: development"
+        echo "Environment: dev.sidonpay.com (example)"
+        # Add your development deployment commands here
+        # Example: npx vercel --prod --token ${{ secrets.VERCEL_TOKEN }}
+
+  deploy-staging:
+    needs: test
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/staging'
+    steps:
+    - uses: actions/checkout@v3
+    - name: Deploy to Staging Environment
+      run: |
+        echo "🧪 Deploying SidonPay to Staging"
+        echo "Branch: staging"
+        echo "Environment: staging.sidonpay.com (example)"
+        # Add your staging deployment commands here
+
+  deploy-production:
+    needs: test
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/production'
+    steps:
+    - uses: actions/checkout@v3
+    - name: Deploy to Production Environment
+      run: |
+        echo "🏭 Deploying SidonPay to Production"
+        echo "Branch: production" 
+        echo "Environment: app.sidonpay.com (example)"
+        # Add your production deployment commands here
+
+  deploy-main:
+    needs: test
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    steps:
+    - uses: actions/checkout@v3
+    - name: Deploy to Main/Live Environment
+      run: |
+        echo "✅ Deploying SidonPay to Main/Live"
+        echo "Branch: main"
+        echo "Environment: sidonpay.com (example)"
+        # Add your main/live deployment commands here
