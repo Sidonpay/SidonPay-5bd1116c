@@ -16,6 +16,7 @@ import { AuthProvider } from "./contexts/AuthContext";
 import OverviewPage from "./pages/OverviewPage";
 import PaymentProcessingPage from "./pages/PaymentProcessingPage";
 import LoginPage from "./pages/LoginPage";
+import UserProfilePage from "./pages/UserProfilePage";
 
 const App = () => {
   return (
@@ -45,6 +46,7 @@ const App = () => {
                 path="payments-processing"
                 element={<PaymentProcessingPage />}
               />
+              <Route path="update-user-profile" element={<UserProfilePage />} />
               {/* other routes */}
             </Route>
           </Routes>
