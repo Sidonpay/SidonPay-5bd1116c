@@ -12,13 +12,13 @@ function Sidebar() {
       </div>
 
       {/* Navigation */}
-      <nav className="p-4">
+      <nav className="p-4 flex-col flex">
         <NavLink to="/">Overview</NavLink>
         <NavLink to="/payments-processing">Payments processing</NavLink>
-        <NavLink to="/reviews">Reviews</NavLink>
-        <NavLink to="/disputes">Disputes</NavLink>
-        <NavLink to="/payouts">Payouts</NavLink>
-        <NavLink to="/ai-transactions">AI Transactions</NavLink>
+
+        <NavLink to="/update-user-profile" className="font-bold text-red-500">
+          User Profile
+        </NavLink>
       </nav>
 
       {/* User & Logout */}
