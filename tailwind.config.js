@@ -3,7 +3,12 @@ export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
     extend: {
-      mont: ["Montserrat", "sans-serif"],
+      fontFamily: {
+        mont: ["Montserrat", "sans-serif"],
+      },
+      colors: {
+        color_base_white: "#ffffff",
+      },
     },
   },
   plugins: [],
