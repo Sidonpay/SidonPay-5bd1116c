@@ -11,8 +11,87 @@
   TODO: Replace mock functions with real API calls when backend is ready
 */
 
-import { createContext, useContext, useState, useEffect } from "react";
+import { createContext, useContext, useReducer, useEffect } from "react";
 import PropTypes from "prop-types";
+
+// Initial auth state
+const initialState = {
+  user: null,
+  isAuthenticated: false,
+  isLoading: true,
+  error: null,
+};
+
+// Auth actions
+const AUTH_ACTIONS = {
+  LOGIN_START: "LOGIN_START",
+  LOGIN_SUCCESS: "LOGIN_SUCCESS",
+  LOGIN_FAILURE: "LOGIN_FAILURE",
+  LOGOUT: "LOGOUT",
+  SET_LOADING: "SET_LOADING",
+  CLEAR_ERROR: "CLEAR_ERROR",
+  UPDATE_USER: "UPDATE_USER",
+};
+
+// Auth reducer
+function authReducer(state, action) {
+  switch (action.type) {
+    case AUTH_ACTIONS.LOGIN_START:
+      return {
+        ...state,
+        isLoading: true,
+        error: null,
+      };
+
+    case AUTH_ACTIONS.LOGIN_SUCCESS:
+      return {
+        ...state,
+        user: action.payload.user,
+        isAuthenticated: true,
+        isLoading: false,
+        error: null,
+      };
+
+    case AUTH_ACTIONS.LOGIN_FAILURE:
+      return {
+        ...state,
+        user: null,
+        isAuthenticated: false,
+        isLoading: false,
+        error: action.payload.error,
+      };
+
+    case AUTH_ACTIONS.LOGOUT:
+      return {
+        ...state,
+        user: null,
+        isAuthenticated: false,
+        isLoading: false,
+        error: null,
+      };
+
+    case AUTH_ACTIONS.SET_LOADING:
+      return {
+        ...state,
+        isLoading: action.payload,
+      };
+
+    case AUTH_ACTIONS.CLEAR_ERROR:
+      return {
+        ...state,
+        error: null,
+      };
+
+    case AUTH_ACTIONS.UPDATE_USER:
+      return {
+        ...state,
+        user: { ...state.user, ...action.payload },
+      };
+
+    default:
+      return state;
+  }
+}
 
 // Create Auth Context
 const AuthContext = createContext();
@@ -46,18 +125,15 @@ const tokenService = {
 
 // Auth Provider Component
 export function AuthProvider({ children }) {
-  const [user, setUser] = useState(null);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [state, dispatch] = useReducer(authReducer, initialState);
 
   // Check if user is already authenticated on app load
   useEffect(() => {
     const checkAuthStatus = async () => {
       const token = tokenService.getToken();
-      const userData = tokenService.getUser();
+      const user = tokenService.getUser();
 
-      if (token && userData) {
+      if (token && user) {
         // For now, mock token verification (until backend is ready)
         try {
           // TODO: Replace with real API call when backend is ready
@@ -73,21 +149,21 @@ export function AuthProvider({ children }) {
           const mockResponse = { ok: true };
 
           if (mockResponse.ok) {
-            setUser(userData);
-            setIsAuthenticated(true);
-            setIsLoading(false);
-            setError(null);
+            dispatch({
+              type: AUTH_ACTIONS.LOGIN_SUCCESS,
+              payload: { user },
+            });
           } else {
             tokenService.removeToken();
-            setIsLoading(false);
+            dispatch({ type: AUTH_ACTIONS.SET_LOADING, payload: false });
           }
         } catch (error) {
           console.error("Auth verification error:", error);
           tokenService.removeToken();
-          setIsLoading(false);
+          dispatch({ type: AUTH_ACTIONS.SET_LOADING, payload: false });
         }
       } else {
-        setIsLoading(false);
+        dispatch({ type: AUTH_ACTIONS.SET_LOADING, payload: false });
       }
     };
 
@@ -96,8 +172,7 @@ export function AuthProvider({ children }) {
 
   // Login function
   const login = async (credentials) => {
-    setIsLoading(true);
-    setError(null);
+    dispatch({ type: AUTH_ACTIONS.LOGIN_START });
 
     try {
       // TODO: Replace with real API call when backend is ready
@@ -140,25 +215,25 @@ export function AuthProvider({ children }) {
 
       // Mock login validation
       if (mockUsers[email] && password === "password123") {
-        const userData = mockUsers[email];
-        const token = `mock_token_${userData.id}_${Date.now()}`;
+        const user = mockUsers[email];
+        const token = `mock_token_${user.id}_${Date.now()}`;
 
         // Store token and user data
         tokenService.setToken(token);
-        tokenService.setUser(userData);
+        tokenService.setUser(user);
 
-        setUser(userData);
-        setIsAuthenticated(true);
-        setIsLoading(false);
-        setError(null);
+        dispatch({
+          type: AUTH_ACTIONS.LOGIN_SUCCESS,
+          payload: { user },
+        });
 
-        return { success: true, user: userData };
+        return { success: true, user };
       } else {
         const errorMessage = "Invalid email or password";
-        setUser(null);
-        setIsAuthenticated(false);
-        setIsLoading(false);
-        setError(errorMessage);
+        dispatch({
+          type: AUTH_ACTIONS.LOGIN_FAILURE,
+          payload: { error: errorMessage },
+        });
 
         return { success: false, error: errorMessage };
       }
@@ -169,24 +244,24 @@ export function AuthProvider({ children }) {
       //   const { user, token } = data
       //   tokenService.setToken(token)
       //   tokenService.setUser(user)
-      //   setUser(user)
-      //   setIsAuthenticated(true)
-      //   setIsLoading(false)
-      //   setError(null)
+      //   dispatch({
+      //     type: AUTH_ACTIONS.LOGIN_SUCCESS,
+      //     payload: { user }
+      //   })
       //   return { success: true, user }
       // } else {
-      //   setUser(null)
-      //   setIsAuthenticated(false)
-      //   setIsLoading(false)
-      //   setError(data.message || 'Login failed')
+      //   dispatch({
+      //     type: AUTH_ACTIONS.LOGIN_FAILURE,
+      //     payload: { error: data.message || 'Login failed' }
+      //   })
       //   return { success: false, error: data.message || 'Login failed' }
       // }
     } catch (error) {
       const errorMessage = "Network error. Please try again.";
-      setUser(null);
-      setIsAuthenticated(false);
-      setIsLoading(false);
-      setError(errorMessage);
+      dispatch({
+        type: AUTH_ACTIONS.LOGIN_FAILURE,
+        payload: { error: errorMessage },
+      });
 
       return { success: false, error: errorMessage };
     }
@@ -214,10 +289,7 @@ export function AuthProvider({ children }) {
     } finally {
       // Always clear local storage and update state
       tokenService.removeToken();
-      setUser(null);
-      setIsAuthenticated(false);
-      setIsLoading(false);
-      setError(null);
+      dispatch({ type: AUTH_ACTIONS.LOGOUT });
     }
   };
 
@@ -275,34 +347,37 @@ export function AuthProvider({ children }) {
 
   // Update user function
   const updateUser = (userData) => {
-    const updatedUser = { ...user, ...userData };
+    const updatedUser = { ...state.user, ...userData };
     tokenService.setUser(updatedUser);
-    setUser(updatedUser);
+    dispatch({
+      type: AUTH_ACTIONS.UPDATE_USER,
+      payload: userData,
+    });
   };
 
   // Clear error function
   const clearError = () => {
-    setError(null);
+    dispatch({ type: AUTH_ACTIONS.CLEAR_ERROR });
   };
 
   // Check if user has specific permission
   const hasPermission = (permission) => {
-    if (!user || !user.permissions) return false;
-    return user.permissions.includes(permission);
+    if (!state.user || !state.user.permissions) return false;
+    return state.user.permissions.includes(permission);
   };
 
   // Check if user has specific role
   const hasRole = (role) => {
-    if (!user || !user.role) return false;
-    return user.role === role;
+    if (!state.user || !state.user.role) return false;
+    return state.user.role === role;
   };
 
   const value = {
     // State
-    user,
-    isAuthenticated,
-    isLoading,
-    error,
+    user: state.user,
+    isAuthenticated: state.isAuthenticated,
+    isLoading: state.isLoading,
+    error: state.error,
 
     // Actions
     login,
