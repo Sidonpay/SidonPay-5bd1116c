@@ -9,7 +9,6 @@ import DashboardLayout from "./components/DashboardLayout";
 import ProtectedRoute from "./components/ProtectedRoute";
 
 // Providers
-
 import { AuthProvider } from "./contexts/AuthContext";
 import SidebarContext from "./contexts/SidebarContext";
 import CurrentPage from "./contexts/CurrentPageContext.jsx";
@@ -24,6 +23,7 @@ import DisputesPage from "./pages/DisputesPage";
 import PayoutsPage from "./pages/PayoutsPage";
 import AllTransactionsPage from "./pages/AllTransactionsPage";
 import { useState } from "react";
+
 const App = () => {
   const [open, setOpen] = useState(false);
   const [page, setPage] = useState("");
@@ -38,12 +38,11 @@ const App = () => {
                 <Route
                   path="/login"
                   element={
-                    <AuthLayout>
+                    <AuthLayout leftImage="/mu-sub-log.png">
                       <LoginPage />
                     </AuthLayout>
                   }
                 />
-
                 <Route
                   path="/"
                   element={

@@ -17,9 +17,7 @@ export default {
         button: "#55BB84",
         secondary: "#7B7B7B",
         contrast: "#A7A7A7",
-        base_gray: "#DDE5EF"
-
-        
+        base_gray: "#DDE5EF",
       },
     },
   },
