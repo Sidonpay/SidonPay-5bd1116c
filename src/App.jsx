@@ -9,47 +9,69 @@ import DashboardLayout from "./components/DashboardLayout";
 import ProtectedRoute from "./components/ProtectedRoute";
 
 // Providers
-
 import { AuthProvider } from "./contexts/AuthContext";
+import SidebarContext from "./contexts/SidebarContext";
+import CurrentPage from "./contexts/CurrentPageContext.jsx";
 
 // Pages
 import OverviewPage from "./pages/OverviewPage";
 import PaymentProcessingPage from "./pages/PaymentProcessingPage";
 import LoginPage from "./pages/LoginPage";
 import UserProfilePage from "./pages/UserProfilePage";
+import ReviewsPage from "./pages/ReviewsPage";
+import DisputesPage from "./pages/DisputesPage";
+import PayoutsPage from "./pages/PayoutsPage";
+import AllTransactionsPage from "./pages/AllTransactionsPage";
+import { useState } from "react";
 
 const App = () => {
+  const [open, setOpen] = useState(false);
+  const [page, setPage] = useState("");
+
   return (
     <div className="font-mont">
       <BrowserRouter>
         <AuthProvider>
-          <Routes>
-            <Route
-              path="/login"
-              element={
-                <AuthLayout leftImage="/mu-sub-log.png">
-                  <LoginPage />
-                </AuthLayout>
-              }
-            />
-
-            <Route
-              path="/"
-              element={
-                <ProtectedRoute>
-                  <DashboardLayout />
-                </ProtectedRoute>
-              }
-            >
-              <Route index element={<OverviewPage />} />
-              <Route
-                path="payments-processing"
-                element={<PaymentProcessingPage />}
-              />
-              <Route path="update-user-profile" element={<UserProfilePage />} />
-              {/* other routes */}
-            </Route>
-          </Routes>
+          <SidebarContext.Provider value={{ open, setOpen }}>
+            <CurrentPage.Provider value={{ page, setPage }}>
+              <Routes>
+                <Route
+                  path="/login"
+                  element={
+                    <AuthLayout leftImage="/mu-sub-log.png">
+                      <LoginPage />
+                    </AuthLayout>
+                  }
+                />
+                <Route
+                  path="/"
+                  element={
+                    <ProtectedRoute>
+                      <DashboardLayout />
+                    </ProtectedRoute>
+                  }
+                >
+                  <Route index element={<OverviewPage />} />
+                  <Route
+                    path="payments-processing"
+                    element={<PaymentProcessingPage />}
+                  />
+                  <Route
+                    path="update-user-profile"
+                    element={<UserProfilePage />}
+                  />
+                  <Route path="reviews" element={<ReviewsPage />} />
+                  <Route path="disputes" element={<DisputesPage />} />
+                  <Route path="payouts" element={<PayoutsPage />} />
+                  <Route
+                    path="all-transactions"
+                    element={<AllTransactionsPage />}
+                  />
+                  {/* other routes */}
+                </Route>
+              </Routes>
+            </CurrentPage.Provider>
+          </SidebarContext.Provider>
         </AuthProvider>
       </BrowserRouter>
     </div>
