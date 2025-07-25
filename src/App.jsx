@@ -27,7 +27,7 @@ const App = () => {
             <Route
               path="/login"
               element={
-                <AuthLayout>
+                <AuthLayout leftImage="/mu-sub-log.png">
                   <LoginPage />
                 </AuthLayout>
               }
