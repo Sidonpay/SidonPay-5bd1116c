@@ -4,7 +4,7 @@ import Header from "./Header";
 
 function DashboardLayout() {
   return (
-    <div className="flex h-screen bg-gray-50">
+    <div className="flex h-screen bg-base_white lg:px-6">
       {/* Sidebar */}
       <Sidebar />
 

@@ -1,72 +1,79 @@
+import { Bell, Search, Sidebar, SidebarClose, SidebarOpen } from "lucide-react";
 import { useAuth } from "../contexts/AuthContext";
+// import { useContext } from "react";
+import SidebarContext from "../contexts/SidebarContext";
+import CurrentPage from "../contexts/CurrentPageContext";
+import { useContext } from "react";
 
 function Header() {
   const { user } = useAuth();
+  const { open, setOpen } = useContext(SidebarContext);
+  const { page } = useContext(CurrentPage);
 
   return (
-    <header className="bg-white border-b border-gray-200 px-6 py-4">
-      <div className="flex items-center justify-between">
+    <header className="p-6 border-b">
+      <div className="flex items-center justify-between flex-wrap">
         {/* Page title area */}
-        <div>
-          <h2 className="text-lg font-semibold text-gray-900">Dashboard</h2>
-          <p className="text-sm text-gray-500">Welcome back, {user?.name}</p>
+        <div className="flex items-center gap-4 lg:gap-6">
+          {open ? (
+            <SidebarClose
+              fill="black"
+              color="#F8F8F8"
+              strokeWidth={1.5}
+              size={20}
+              onClick={() => setOpen(false)}
+            />
+          ) : (
+            <SidebarOpen
+              fill="black"
+              color="#F8F8F8"
+              strokeWidth={1.5}
+              size={20}
+              onClick={() => setOpen(true)}
+            />
+          )}
+
+          <div className="hidden md:flex items-center gap-4 lg:gap-6 text-sm text-contrast">
+            <h2>Dashboard</h2>
+            <span>/</span>
+            <h2 className="text-xs text-brand_color2 font-bold">
+              {page || "Home"}
+            </h2>
+          </div>
         </div>
 
         {/* Header actions */}
         <div className="flex items-center space-x-4">
           {/* Notifications */}
-          <button className="p-2 text-gray-400 hover:text-gray-600">
+          <button className="text-contrast hover:text-secondary hidden">
             <span className="sr-only">Notifications</span>
-            <svg
-              className="w-5 h-5"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M15 17h5l-5 5v-5zM12 3a4 4 0 014 4v6l2 2v1H6v-1l2-2V7a4 4 0 014-4z"
-              />
-            </svg>
+            <Bell />
           </button>
 
           {/* Search */}
-          <div className="relative">
+          <div className="hidden lg:flex items-center lg:gap-2 p-2 border border-base_grey rounded-full focus:outline-none focus:ring-1 focus:ring-secondary focus:border-transparent text-contrast">
+            <Search strokeWidth={1} size={16} />
             <input
               type="text"
-              placeholder="Search..."
-              className="w-64 px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              placeholder="Search"
+              className="w-64 text-xs text-brand_color2 bg-transparent placeholder:text-xs border-0 focus:ring-0 focus:outline-none focus:border-0"
             />
-            <div className="absolute inset-y-0 right-0 flex items-center pr-3">
-              <svg
-                className="w-4 h-4 text-gray-400"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                />
-              </svg>
-            </div>
           </div>
+        </div>
 
-          {/* User profile */}
-          <div className="flex items-center space-x-2">
-            <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center">
-              <span className="text-sm font-medium text-white">
-                {user?.name?.charAt(0) || "U"}
-              </span>
-            </div>
-            <span className="text-sm font-medium text-gray-700">
-              {user?.name}
+        {/* User profile */}
+        <div className="flex gap-2 items-center">
+          <div className="flex lg:hidden items-center lg:gap-2 p-2 border border-base_grey rounded-full focus:outline-none focus:ring-1 focus:ring-secondary focus:border-transparent text-contrast">
+            <Search strokeWidth={1} size={16} />
+          </div>
+          <div className="w-6 h-6 bg-button bg-opacity-80 rounded-lg flex items-center justify-center">
+            <span className="text-sm font-medium text-white">
+              {user?.name?.charAt(0) || "U"}
             </span>
           </div>
+          <span className="hidden lg:block text-xs font-medium text-brand_color2">
+            {user?.name}
+          </span>
         </div>
       </div>
     </header>

@@ -1,6 +1,6 @@
 function OverviewPage() {
   return (
-    <div className="space-y-6">
+    <div className="py-6 h-screen">
       {/* Page Header */}
       <div>
         <h1 className="text-2xl font-bold text-gray-900">Overview</h1>
@@ -41,7 +41,7 @@ function OverviewPage() {
       {/* Main Content Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Left Column - Charts */}
-        <div className="lg:col-span-2 space-y-6">
+        <div className="lg:col-span-2 p-6">
           {/* Main Line Chart */}
           <div className="bg-white p-6 rounded-lg border">
             <div className="flex justify-between items-center mb-4">
@@ -179,7 +179,7 @@ function OverviewPage() {
         </div>
 
         {/* Right Column - Notifications & Team */}
-        <div className="space-y-6">
+        <div className="p-6">
           {/* Notifications */}
           <div className="bg-white p-6 rounded-lg border">
             <h3 className="text-lg font-semibold mb-4">Notifications</h3>
