@@ -1,40 +1,61 @@
 import { NavLink } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 import SidebarMenu from "./SidebarMenu";
-import logoIcon from "/jo-sidonpay-logo-icon.svg"
 import icon from "/favicon.svg";
+import logo from "/mainlogo.svg";
 import { useContext, useState } from "react";
-import { ChevronDown, ChartPie, ScrollText, CircleAlert, ReceiptText, ListChecks, Dices, BanknoteArrowDown, LogOut } from "lucide-react";
+import {
+  ChevronDown,
+  ChartPie,
+  ScrollText,
+  CircleAlert,
+  ReceiptText,
+  ListChecks,
+  Dices,
+  BanknoteArrowDown,
+  LogOut,
+  UserCircle,
+  CreditCard,
+  Gift,
+  FileChartColumn,
+} from "lucide-react";
 import SidebarContext from "../contexts/SidebarContext";
 
 function Sidebar() {
-  const [dropdown, setDropdown] = useState(false)
-  const { open } = useContext(SidebarContext)
+  const [dropdown, setDropdown] = useState(false);
+  const { open } = useContext(SidebarContext);
 
   const { logout } = useAuth();
 
   const toggleDropdown = () => {
-    console.log("done") //toggle for dropdown-menu and chevron rotation
-    dropdown ? setDropdown(false) : setDropdown(true)
+  //toggle for dropdown-menu and chevron rotation
+    dropdown ? setDropdown(false) : setDropdown(true);
   };
 
   return (
     <div
-      className={`flex flex-col transition-all duration-1000 ${
-        open ? "w-1/5 max-w-72" : "w-[75px]"
-      } bg-button bg-opacity-10 border-r`}
+      className={`flex flex-col bg-button bg-opacity-10 border-r transition-all duration-300 ease-linear ${
+        open ? "px-4" : "px-2"
+      }`}
     >
       {/* Brand */}
-      <div className={"py-8 px-4"}>
+      <div className={"flex items-center py-8"}>
         <img
-          src={open ? logoIcon : icon}
+          src={icon}
           alt="sidonpay logo"
-          className={`${open ? "w-32" : "mx-auto"} `}
+          className={`${open ? "" : "mx-auto"}`}
+        />
+        <img
+          src={logo}
+          alt="sidonpay logo"
+          className={`overflow-hidden transition-all duration-350 ease-linear ${
+            open ? "w-24" : "w-0"
+          } `}
         />
       </div>
 
       {/* Navigation */}
-      <nav className="px-4 flex-col flex gap-y-1 text-sm">
+      <nav className="flex flex-col gap-y-1 text-sm">
         <SidebarMenu path="/" Icon={ChartPie} text="Overview" />
         <SidebarMenu
           path="/payments-processing"
@@ -52,12 +73,18 @@ function Sidebar() {
 
         <div
           onClick={toggleDropdown}
-          className="flex gap-2 text-brand_color1 px-2 py-3"
+          className="flex items-center gap-2 text-brand_color1 py-3 px-2"
         >
           <Dices />
-          <span className={` ${open ? "" : "hidden"} `}>More</span>
+          <span
+            className={`overflow-hidden transition-all duration-300 ease-linear ${
+              open ? "w-38 md:44 ml-2" : "w-0 ml-0"
+            } `}
+          >
+            More
+          </span>
           <ChevronDown
-            className={`ml-auto transition-transform duration-300 ${
+            className={`ml-auto transition-transform duration-300 ease-linear ${
               dropdown ? "-rotate-180" : ""
             }`}
           />
@@ -68,23 +95,33 @@ function Sidebar() {
             dropdown == true ? "max-h-48" : "max-h-0"
           }`}
         >
-          <SidebarMenu path="opp" text="Financial Management" />
-          <SidebarMenu path="opp" text="Virtual Cards" />
-          <SidebarMenu path="opp" text="Gift Cards Management" />
-          <SidebarMenu path="opp" text="Report and Analytics" />
+          <SidebarMenu
+            path="opp"
+            text="Financial Management"
+            Icon={UserCircle}
+          />
+          <SidebarMenu path="opp" text="Virtual Cards" Icon={CreditCard} />
+          <SidebarMenu path="opp" text="Gift Cards Management" Icon={Gift} />
+          <SidebarMenu
+            path="opp"
+            text="Report and Analytics"
+            Icon={FileChartColumn}
+          />
         </div>
       </nav>
 
       {/* User & Logout */}
-      <div className="mt-auto py-6">
+      <div className="mt-auto">
         <button
-          className={`w-full flex gap-2 text-brand_color2 px-2 ${
-            open ? "" : "justify-center"
+          className={`flex items-center gap-2 py-6 px-2 text-sm text-brand_color2 ${
+            open ? "" : "mx-auto justify-center"
           }`}
           onClick={logout}
         >
-          <LogOut />
-          <span className={` ${open ? "" : "hidden"} `}>Logout</span>
+          <LogOut size={20} />
+          <span className={`overflow-hidden transition-all duration-500 ${open ? "w-38 md:44 ml-2" : "w-0 ml-0"} `}>
+            Logout
+          </span>
         </button>
       </div>
     </div>

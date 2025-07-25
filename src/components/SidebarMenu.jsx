@@ -1,17 +1,15 @@
-import PropTypes from 'prop-types'
-import React, { useContext } from 'react'
-import { NavLink } from 'react-router-dom'
-import CurrentPage from '../contexts/CurrentPageContext'
-import SidebarContext from '../contexts/SidebarContext'
+import PropTypes from "prop-types";
+import React, { useContext } from "react";
+import { NavLink } from "react-router-dom";
+import CurrentPage from "../contexts/CurrentPageContext.jsx";
+import SidebarContext from "../contexts/SidebarContext";
 
-const SidebarMenu = ({path, Icon, text}) => {
-
-  const { page, setPage } = useContext(CurrentPage)
-  const { open } = useContext(SidebarContext)
+const SidebarMenu = ({ path, Icon, text }) => {
+  const { setPage } = useContext(CurrentPage);
+  const { open } = useContext(SidebarContext);
 
   const handleMenuClick = (value) => {
-    setPage(value)
-    console.log(`You are now on the ${page} page`)
+    setPage(value);
   };
   return (
     <NavLink
@@ -19,24 +17,30 @@ const SidebarMenu = ({path, Icon, text}) => {
       onClick={() => handleMenuClick(text)}
       className={({ isActive }) =>
         isActive
-          ? `text-white bg-brand_color1 px-2 py-3 rounded-2xl duration-500 flex items-center ${
-              open ? "" : "justify-center"
+          ? `flex items-center text-white bg-brand_color1 px-3 py-3 rounded-2xl duration-300 ease-linear  ${
+              open ? "" : "mx-auto w-12 h-12 justify-center"
             }`
-          : `text-brand_color1 px-2 py-3 rounded-2xl hover:transform hover:translate-x-2 duration-300 flex items-center gap-2 ${
-              open ? "" : "justify-center"
+          : `flex items-center text-brand_color1 px-2 py-3 rounded-xl hover:transform hover:translate-x-2 duration-300 ease-linear gap-2 ${
+              open ? "" : "mx-auto w-12 h-12 justify-center"
             }`
       }
     >
       {Icon && <Icon size="20" />}
-      <span className={`transition-transform duration-500 overflow-hidden { ${open ? "w-52 ml-2" : "w-0 ml-0"} }`}>{text}</span>
+      <span
+        className={`transition-all duration-300 ease-linear overflow-hidden { ${
+          open ? "w-38 md:44 ml-2" : "w-0 ml-0"
+        } }`}
+      >
+        {text}
+      </span>
     </NavLink>
   );
-}
+};
 
 SidebarMenu.propTypes = {
   path: PropTypes.string,
   Icon: PropTypes.string,
-  text: PropTypes.string.isRequired
-}
+  text: PropTypes.string.isRequired,
+};
 
-export default SidebarMenu
+export default SidebarMenu;

@@ -2,7 +2,7 @@ import { Bell, Search, Sidebar, SidebarClose, SidebarOpen } from "lucide-react";
 import { useAuth } from "../contexts/AuthContext";
 // import { useContext } from "react";
 import SidebarContext from "../contexts/SidebarContext";
-import CurrentPage from "../contexts/CurrentPageContext";
+import CurrentPage from "../contexts/CurrentPageContext.jsx";
 import { useContext } from "react";
 
 function Header() {
@@ -51,7 +51,7 @@ function Header() {
           </button>
 
           {/* Search */}
-          <div className="hidden lg:flex items-center lg:gap-2 p-2 border border-base_grey rounded-full focus:outline-none focus:ring-1 focus:ring-secondary focus:border-transparent text-contrast">
+          <div className="hidden lg:flex items-center lg:gap-2 p-2 bg-neutral-200 border border-base_grey rounded-full focus:outline-none focus:ring-1 focus:ring-secondary focus:border-transparent text-contrast">
             <Search strokeWidth={1} size={16} />
             <input
               type="text"
