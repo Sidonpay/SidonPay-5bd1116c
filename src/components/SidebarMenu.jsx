@@ -18,17 +18,17 @@ const SidebarMenu = ({ path, Icon, text }) => {
       className={({ isActive }) =>
         isActive
           ? `flex items-center text-white bg-brand_color1 px-3 py-3 rounded-2xl duration-300 ease-linear  ${
-              open ? "" : "mx-auto w-12 h-12 justify-center"
+              open ? "" : "mx-auto w-11 h-11 justify-center p-0"
             }`
           : `flex items-center text-brand_color1 px-2 py-3 rounded-xl hover:transform hover:translate-x-2 duration-300 ease-linear gap-2 ${
-              open ? "" : "mx-auto w-12 h-12 justify-center"
+              open ? "" : "mx-auto w-11 h-11 justify-center p-0"
             }`
       }
     >
       {Icon && <Icon size="20" />}
       <span
         className={`transition-all duration-300 ease-linear overflow-hidden { ${
-          open ? "w-38 md:44 ml-2" : "w-0 ml-0"
+          open ? "w-38 ml-2" : "w-0 ml-0"
         } }`}
       >
         {text}

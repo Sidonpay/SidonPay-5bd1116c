@@ -29,7 +29,7 @@ const App = () => {
   const [page, setPage] = useState("");
 
   return (
-    <div className="font-mont">
+    <div className="font-mont bg-base_white">
       <BrowserRouter>
         <AuthProvider>
           <SidebarContext.Provider value={{ open, setOpen }}>
