@@ -19,7 +19,7 @@ const WebsiteTrafficChart = () => {
       <BarChart
         data={chartData}
         layout="vertical" // ← switch to horizontal bars
-        margin={{ left: 15 }}
+        margin={{ left: 15, top: 20 }}
         barSize={5}
       >
         <XAxis type="number" tickLine={false} axisLine={false} tick={false} />
@@ -30,12 +30,12 @@ const WebsiteTrafficChart = () => {
           axisLine={false}
           tick={{
             textAnchor: "start",
-            fontSize: 12,
+            fontSize: 13,
             fill: "#151E31",
           }}
-          tickMargin={65}
+          tickMargin={68}
         />
-        <Bar dataKey="traffic" fill="#555E71" strokeWidth={10} radius={30} />
+        <Bar dataKey="traffic" fill="#555E71" radius={30} />
       </BarChart>
     </ResponsiveContainer>
   );

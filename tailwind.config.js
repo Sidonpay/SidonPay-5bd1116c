@@ -5,6 +5,7 @@ export default {
     extend: {
       fontFamily: {
         mont: ["Montserrat", "sans-serif"],
+        inter: ["Inter", "sans-serif"],
       },
       colors: {
         base_white: "#f8f8f8",

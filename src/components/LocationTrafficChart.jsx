@@ -21,11 +21,11 @@ const LocationTrafficChart = () => {
         <Pie
           data={chartData}
           dataKey="traffic"
-          cx="30%"
+          cx="32%"
           cy="50%"
           nameKey="location"
           innerRadius={40}
-          outerRadius={90}
+          outerRadius={85}
           paddingAngle={1}
           fill="#82ca9d"
           cornerRadius={6}
@@ -46,7 +46,11 @@ const LocationTrafficChart = () => {
           verticalAlign="middle"
           iconType="circle"
           iconSize={10}
-          formatter={(value) => <span style={{ color: "#000" }}>{value}</span>}
+          formatter={(value) => (
+            <span className="text-brand_color2 ml-2 text-xs font-medium">
+              {value}
+            </span>
+          )}
         />
       </PieChart>
     </ResponsiveContainer>

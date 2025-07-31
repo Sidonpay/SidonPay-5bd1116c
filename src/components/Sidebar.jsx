@@ -34,7 +34,7 @@ function Sidebar() {
 
   return (
     <div
-      className={`flex flex-col bg-button bg-opacity-10 border-r transition-all duration-300 ease-linear ${
+      className={`hidden lg:flex flex-col bg-button bg-opacity-10 border-r transition-all duration-300 ease-linear ${
         open ? "px-4" : "px-2"
       }`}
     >
