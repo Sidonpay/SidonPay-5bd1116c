@@ -8,9 +8,11 @@ import SalesReportChart from "../components/SalesReportChart";
 import NotificationsBlock from "../components/NotificationsBlock";
 import { useContext } from "react";
 import SidebarContext from "../contexts/SidebarContext";
+import NotificationContext from "../contexts/NotificationContext";
 
 function OverviewPage() {
   const { open } = useContext(SidebarContext);
+  const { notify } = useContext(NotificationContext);
 
   return (
     <div className="flex max-h-screen pb-12">
@@ -128,43 +130,11 @@ function OverviewPage() {
         </div>
       </div>
       {/* Right Column - Placeholder for now */}
-      <div className="hidden xl:flex flex-col gap-8 border-l pl-4 py-8">
+      <div className={`hidden lg:flex ${notify ? "w-fit" : "w-0 pl-0"} overflow-hidden flex-col gap-8 border-l pl-4 py-8`}>
         {/* Notifications */}
         <NotificationsBlock />
 
-        {/* Team Members */}
-        <div className="">
-          <h3 className="text-lg font-semibold mb-4">Team members</h3>
-          <div className="space-y-3">
-            <div className="flex items-center space-x-3">
-              <div className="w-8 h-8 bg-purple-500 rounded-full flex items-center justify-center">
-                <span className="text-white text-xs font-medium">KA</span>
-              </div>
-              <span className="text-sm">Kunle Adeyeye</span>
-            </div>
-
-            <div className="flex items-center space-x-3">
-              <div className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center">
-                <span className="text-white text-xs font-medium">BA</span>
-              </div>
-              <span className="text-sm">Bola Adedapo</span>
-            </div>
-
-            <div className="flex items-center space-x-3">
-              <div className="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center">
-                <span className="text-white text-xs font-medium">SA</span>
-              </div>
-              <span className="text-sm">Shola Adeniyi</span>
-            </div>
-
-            <div className="flex items-center space-x-3">
-              <div className="w-8 h-8 bg-orange-500 rounded-full flex items-center justify-center">
-                <span className="text-white text-xs font-medium">LO</span>
-              </div>
-              <span className="text-sm">Lati Olaoye</span>
-            </div>
-          </div>
-        </div>
+        
       </div>
     </div>
   );

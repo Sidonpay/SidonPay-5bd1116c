@@ -18,12 +18,13 @@ import {
   CreditCard,
   Gift,
   FileChartColumn,
+  SidebarClose,
 } from "lucide-react";
 import SidebarContext from "../contexts/SidebarContext";
 
 function Sidebar() {
   const [dropdown, setDropdown] = useState(false);
-  const { open } = useContext(SidebarContext);
+  const { open, setOpen } = useContext(SidebarContext);
 
   const { logout } = useAuth();
 
@@ -33,11 +34,7 @@ function Sidebar() {
   };
 
   return (
-    <div
-      className={`hidden lg:flex flex-col bg-button bg-opacity-10 border-r transition-all duration-300 ease-linear ${
-        open ? "px-4" : "px-2"
-      }`}
-    >
+    <div className={`flex flex-col h-full`}>
       {/* Brand */}
       <div className={"flex items-center py-8"}>
         <img
@@ -51,6 +48,14 @@ function Sidebar() {
           className={`overflow-hidden transition-all duration-350 ease-linear ${
             open ? "w-24" : "w-0"
           } `}
+        />
+        <SidebarClose
+        className="ml-auto md:hidden"
+          fill="black"
+          color="#F8F8F8"
+          strokeWidth={1.5}
+          size={20}
+          onClick={() => setOpen(false)}
         />
       </div>
 
@@ -119,7 +124,11 @@ function Sidebar() {
           onClick={logout}
         >
           <LogOut size={20} />
-          <span className={`overflow-hidden transition-all duration-500 ${open ? "w-38 md:44 ml-2" : "w-0 ml-0"} `}>
+          <span
+            className={`overflow-hidden transition-all duration-500 ${
+              open ? "w-38 md:44 ml-2" : "w-0 ml-0"
+            } `}
+          >
             Logout
           </span>
         </button>

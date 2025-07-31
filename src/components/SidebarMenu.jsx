@@ -6,10 +6,12 @@ import SidebarContext from "../contexts/SidebarContext";
 
 const SidebarMenu = ({ path, Icon, text }) => {
   const { setPage } = useContext(CurrentPage);
-  const { open } = useContext(SidebarContext);
+  const { open, setOpen } = useContext(SidebarContext);
 
   const handleMenuClick = (value) => {
     setPage(value);
+    window.innerWidth < 768 ? setOpen(false) : null
+    
   };
   return (
     <NavLink

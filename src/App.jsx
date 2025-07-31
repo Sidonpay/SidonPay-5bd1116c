@@ -12,6 +12,7 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import { AuthProvider } from "./contexts/AuthContext";
 import SidebarContext from "./contexts/SidebarContext";
 import CurrentPage from "./contexts/CurrentPageContext.jsx";
+import NotificationContext from "./contexts/NotificationContext.jsx";
 
 // Pages
 import OverviewPage from "./pages/OverviewPage";
@@ -27,6 +28,7 @@ import { useState } from "react";
 const App = () => {
   const [open, setOpen] = useState(false);
   const [page, setPage] = useState("");
+  const [notify, setNotify] = useState(false);
 
   return (
     <div className="font-mont bg-base_white">
@@ -34,42 +36,44 @@ const App = () => {
         <AuthProvider>
           <SidebarContext.Provider value={{ open, setOpen }}>
             <CurrentPage.Provider value={{ page, setPage }}>
-              <Routes>
-                <Route
-                  path="/login"
-                  element={
-                    <AuthLayout leftImage="/mu-sub-log.png">
-                      <LoginPage />
-                    </AuthLayout>
-                  }
-                />
-                <Route
-                  path="/"
-                  element={
-                    <ProtectedRoute>
-                      <DashboardLayout />
-                    </ProtectedRoute>
-                  }
-                >
-                  <Route index element={<OverviewPage />} />
+              <NotificationContext.Provider value={{ notify, setNotify }}>
+                <Routes>
                   <Route
-                    path="payments-processing"
-                    element={<PaymentProcessingPage />}
+                    path="/login"
+                    element={
+                      <AuthLayout leftImage="/mu-sub-log.png">
+                        <LoginPage />
+                      </AuthLayout>
+                    }
                   />
                   <Route
-                    path="update-user-profile"
-                    element={<UserProfilePage />}
-                  />
-                  <Route path="reviews" element={<ReviewsPage />} />
-                  <Route path="disputes" element={<DisputesPage />} />
-                  <Route path="payouts" element={<PayoutsPage />} />
-                  <Route
-                    path="all-transactions"
-                    element={<AllTransactionsPage />}
-                  />
-                  {/* other routes */}
-                </Route>
-              </Routes>
+                    path="/"
+                    element={
+                      <ProtectedRoute>
+                        <DashboardLayout />
+                      </ProtectedRoute>
+                    }
+                  >
+                    <Route index element={<OverviewPage />} />
+                    <Route
+                      path="payments-processing"
+                      element={<PaymentProcessingPage />}
+                    />
+                    <Route
+                      path="update-user-profile"
+                      element={<UserProfilePage />}
+                    />
+                    <Route path="reviews" element={<ReviewsPage />} />
+                    <Route path="disputes" element={<DisputesPage />} />
+                    <Route path="payouts" element={<PayoutsPage />} />
+                    <Route
+                      path="all-transactions"
+                      element={<AllTransactionsPage />}
+                    />
+                    {/* other routes */}
+                  </Route>
+                </Routes>
+              </NotificationContext.Provider>
             </CurrentPage.Provider>
           </SidebarContext.Provider>
         </AuthProvider>
