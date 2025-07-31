@@ -58,7 +58,7 @@ const LoginForm = () => {
         error={!!error}
       />
       <div className="flex justify-end w-full mb-3">
-        <Link to=" " className="text-xs text-button_primary underline">
+        <Link to="/forgot-password" className="text-xs text-button_primary underline">
           Forgot password?
         </Link>
       </div>
