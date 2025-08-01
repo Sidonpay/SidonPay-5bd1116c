@@ -83,7 +83,7 @@ function Sidebar() {
           <Dices />
           <span
             className={`overflow-hidden transition-all duration-300 ease-linear ${
-              open ? "w-38 md:44 ml-2" : "w-0 ml-0"
+              open ? "w-48 md:44 ml-2" : "w-0 ml-0"
             } `}
           >
             More

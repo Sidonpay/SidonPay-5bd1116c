@@ -43,31 +43,39 @@ const SalesReportChart = () => {
   return (
     <ResponsiveContainer>
       <BarChart data={data} barSize={15}>
-              <XAxis
-                type="category"
-                dataKey="month"
-                tickLine={false}
-                axisLine={false} tickMargin={10}
-              />
-              <YAxis
-              tickLine={false} axisLine={false}
-                tickCount={4}
-                tickMargin={28}
-                tickFormatter={(value) =>
-                  value >= 1000 ? `${Math.round(value / 1000)}K` : value
-                }
-              />
-              <Bar dataKey="sales" fill="#555E71" radius={8} >
-                  {data.map((entry, index) => (
-                              <Cell
-                                key={`slice-${entry.month}`}
-                                fill={COLORS[index % COLORS.length]}
-                              />
-                            ))}
-              </Bar>
-            </BarChart>
+        <XAxis
+          type="category"
+          dataKey="month"
+          tickLine={false}
+          axisLine={false}
+          tickMargin={10}
+          tick={{
+            fontSize: 12,
+          }}
+        />
+        <YAxis
+          tickLine={false}
+          axisLine={false}
+          tickCount={4}
+          tickMargin={28}
+          tickFormatter={(value) =>
+            value >= 1000 ? `${Math.round(value / 1000)}K` : value
+          }
+          tick={{
+            fontSize: 12,
+          }}
+        />
+        <Bar dataKey="sales" fill="#555E71" radius={8}>
+          {data.map((entry, index) => (
+            <Cell
+              key={`slice-${entry.month}`}
+              fill={COLORS[index % COLORS.length]}
+            />
+          ))}
+        </Bar>
+      </BarChart>
     </ResponsiveContainer>
-  )
+  );
 }
 
 export default SalesReportChart

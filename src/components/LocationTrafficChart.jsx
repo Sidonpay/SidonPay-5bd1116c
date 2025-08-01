@@ -21,11 +21,11 @@ const LocationTrafficChart = () => {
         <Pie
           data={chartData}
           dataKey="traffic"
-          cx="32%"
+          cx="34%"
           cy="50%"
           nameKey="location"
           innerRadius={40}
-          outerRadius={85}
+          outerRadius={80}
           paddingAngle={1}
           fill="#82ca9d"
           cornerRadius={6}

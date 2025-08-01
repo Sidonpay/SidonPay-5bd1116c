@@ -1,15 +1,18 @@
 import { MessageSquareWarning, Siren, SquareCheck,  UserRound } from "lucide-react";
-import React from "react";
+import React, { useContext } from "react";
 import NotificationMessage from "./NotificationMessage";
+import NotificationContext from "../contexts/NotificationContext";
 
 
 const NotificationsBlock = () => {
+
+  const { setNotify } = useContext(NotificationContext)
   return (
     <div className="font-inter flex flex-col gap-8">
       <div>
-        <div>
-        <h3 className="text-sm mb-4">Notifications</h3>
-          <p>Close</p>
+        <div className="flex justify-between items-center mb-4">
+          <h3 className="text-sm">Notifications</h3>
+          <button onClick={()=>setNotify(false)} className="text-xs text-contrast border-b">Close</button>
         </div>
         <div className="flex flex-col gap-4">
           <NotificationMessage

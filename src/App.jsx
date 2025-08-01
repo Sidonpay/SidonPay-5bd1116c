@@ -27,7 +27,7 @@ import { useState } from "react";
 
 const App = () => {
   const [open, setOpen] = useState(false);
-  const [page, setPage] = useState("");
+  const [page, setPage] = useState("Home");
   const [notify, setNotify] = useState(false);
 
   return (

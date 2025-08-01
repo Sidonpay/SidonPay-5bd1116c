@@ -9,7 +9,10 @@ const SidebarMenu = ({ path, Icon, text }) => {
   const { open, setOpen } = useContext(SidebarContext);
 
   const handleMenuClick = (value) => {
-    setPage(value);
+    value == "Overview" ? value = "Home" : null
+    setPage(value); //show current page on header
+
+    //close sidebar after changing page on mobile
     window.innerWidth < 768 ? setOpen(false) : null
     
   };

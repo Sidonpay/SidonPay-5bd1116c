@@ -22,28 +22,36 @@ const DeviceTrafficChart = () => {
 
   return (
     <ResponsiveContainer width="100%" height="100%">
-      <BarChart data={chartData} barSize={35}>
+      <BarChart data={chartData} barSize={25}>
         <XAxis
           type="category"
           dataKey="site"
           tickLine={false}
-          axisLine={false} tickMargin={10}
+          axisLine={false}
+          tickMargin={10}
+          tick={{
+            fontSize: 12,
+          }}
         />
         <YAxis
-        tickLine={false} axisLine={false}
+          tickLine={false}
+          axisLine={false}
           tickCount={4}
           tickMargin={28}
           tickFormatter={(value) =>
             value >= 1000 ? `${Math.round(value / 1000)}K` : value
           }
+          tick={{
+            fontSize: 12,
+          }}
         />
-        <Bar dataKey="traffic" fill="#555E71" radius={8} >
-            {chartData.map((entry, index) => (
-                        <Cell
-                          key={`slice-${entry.site}`}
-                          fill={SLICE_COLORS[index % SLICE_COLORS.length]}
-                        />
-                      ))}
+        <Bar dataKey="traffic" fill="#555E71" radius={8}>
+          {chartData.map((entry, index) => (
+            <Cell
+              key={`slice-${entry.site}`}
+              fill={SLICE_COLORS[index % SLICE_COLORS.length]}
+            />
+          ))}
         </Bar>
       </BarChart>
     </ResponsiveContainer>

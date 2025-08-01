@@ -1,5 +1,6 @@
 import {
   Bell,
+  ChevronDown,
   Dot,
   Search,
   Sidebar,
@@ -19,6 +20,8 @@ function Header() {
   const { page } = useContext(CurrentPage);
   const { notify, setNotify } = useContext(NotificationContext);
 
+
+  // Prevent sidebar and notification section from displaying at once on smaller screens
   const handleSidebar = () => {
     if (window.innerWidth < 1280) {
       notify && !open ? setNotify(false) : null;
@@ -26,7 +29,7 @@ function Header() {
     } else {
       open ? setOpen(false) : setOpen(true);
     }
-  }
+  };
 
   const handleNotification = () => {
     if (window.innerWidth < 1280) {
@@ -37,8 +40,10 @@ function Header() {
     }
   };
 
+  
+
   return (
-    <header className="p-6 border-b">
+    <header className="px-2 py-4 md:p-6 border-b">
       <div className="flex items-center justify-between flex-wrap">
         {/* Page title area */}
         <div className="flex items-center gap-2 lg:gap-4 xl:gap-6">
@@ -61,13 +66,11 @@ function Header() {
           )}
 
           <div
-            className={`flex items-center gap-2 lg:gap-4 xl:gap-6 text-xs text-contrast min-w-56 lg:min-w-64`}
+            className={`flex items-center gap-2 lg:gap-4 xl:gap-6 text-xs text-contrast sm:min-w-56 lg:min-w-64`}
           >
-            <h2>Dashboard</h2>
+            <h2 className="hidden md:block">Dashboard</h2>
             <span>/</span>
-            <h2 className="text-xs text-brand_color2 font-bold">
-              {page || "Home"}
-            </h2>
+            <h2 className="text-xs text-brand_color2 font-bold">{page}</h2>
           </div>
         </div>
 
@@ -97,7 +100,7 @@ function Header() {
           </div>
 
           {/* Notifications */}
-          <div className="relative">
+          <div className={`relative ${page == "Home" ? "" : "invisible"} `}>
             <div
               onClick={() => handleNotification()}
               className="text-contrast hover:text-secondary relative"
@@ -108,14 +111,17 @@ function Header() {
             <div className="w-2 h-2 rounded-full bg-warning absolute top-0 right-0"></div>
           </div>
 
-          <div className="w-6 h-6 bg-button bg-opacity-80 rounded-lg flex items-center justify-center">
-            <span className="text-sm font-medium text-white">
-              {user?.name?.charAt(0) || "U"}
+          <div className="flex items-center gap-2">
+            <div className="w-6 h-6 bg-button bg-opacity-80 rounded-lg flex items-center justify-center">
+              <span className="text-sm font-medium text-white">
+                {user?.name?.charAt(0) || "U"}
+              </span>
+            </div>
+            <span className="hidden lg:block text-xs font-medium text-brand_color2">
+              {user?.name}
             </span>
+            <ChevronDown size={14} className="text-contrast" />
           </div>
-          <span className="hidden lg:block text-xs font-medium text-brand_color2">
-            {user?.name}
-          </span>
         </div>
       </div>
     </header>
