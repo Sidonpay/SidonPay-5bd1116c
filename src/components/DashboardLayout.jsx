@@ -11,7 +11,7 @@ function DashboardLayout() {
   const { notify } = useContext(NotificationContext)
 
   return (
-    <div className="flex h-dvh overflow-hidden relative max-w-[1980px] mx-auto bg-base_white lg:px-4 box-border border-x-2">
+    <div className="flex h-dvh overflow-hidden relative max-w-[1920px] mx-auto bg-base_white lg:px-4 box-border border-x-2">
 
       {/* Sidebar */}
       <div

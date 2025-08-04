@@ -27,7 +27,7 @@ function OverviewPage() {
         className="flex max-h-screen pb-24"
       >
         <div className="px-3 md:px-6 lg:px-6 overflow-y-auto items-stretch flex-1">
-          <div className="max-w-[1280px] mx-auto">
+          <div className="max-w-[1440px] mx-auto">
             {/* Page Header */}
             <div className="flex py-8 justify-between">
               <h1 className="text-sm font-bold text-brand_color2">Overview</h1>
@@ -164,9 +164,9 @@ function OverviewPage() {
         </div>
         {/* Right Column - Placeholder for now */}
         <div
-          className={`hidden md:flex ${
-            notify ? "w-fit" : "w-0 pl-0 pr-0"
-          } overflow-hidden flex-col gap-8 border-l pl-4 pr-2 py-8`}
+          className={`hidden md:flex transition-all duration-300 ${
+            notify ? "w-fit pl-4 pr-2" : "w-0 pl-0 pr-0"
+          } overflow-hidden flex-col gap-8 border-l py-8`}
         >
           {/* Notifications */}
           <NotificationsBlock />
