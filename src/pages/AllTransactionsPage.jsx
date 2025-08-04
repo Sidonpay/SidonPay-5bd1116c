@@ -11,7 +11,7 @@ const AllTransactionsPage = () => {
         animate={{ opacity: 1, scale: 1 }}
         exit={{ opacity: 0, scale: 0 }}
       >
-        <div className="max-w-[1440px] mx-auto px-3 md:px-6 lg:px-6 overflow-y-auto">
+        <div className="px-3 md:px-6 lg:px-6 overflow-y-auto">
           <div className="flex py-8 justify-between">
             <h1 className="font-inter text-4xl font-bold text-brand_color2">
               All Transactions
