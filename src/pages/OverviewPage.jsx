@@ -26,8 +26,8 @@ function OverviewPage() {
         exit={{ opacity: 0, scale: 0 }}
         className="flex max-h-screen pb-24"
       >
-        <div className="px-3 md:px-6 lg:px-6 overflow-y-auto items-stretch flex-1">
-          <div className="max-w-[1440px] mx-auto">
+        <div className="px-3 md:px-6 overflow-y-auto items-stretch flex-1">
+          <div className="">
             {/* Page Header */}
             <div className="flex py-8 justify-between">
               <h1 className="text-sm font-bold text-brand_color2">Overview</h1>
