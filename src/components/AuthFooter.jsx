@@ -16,7 +16,7 @@ const AuthFooter = ({infoText = "Don't have a profile?",bottomText = "Contact IT
         <div className="w-2 h-2 bg-black rounded-full" />
       </div>
     </div>
-    <span className="text-xs text-secondary mt-1.5">{bottomText}</span>
+    <span className="text-xs text-secondary mt-1">{bottomText}</span>
   </div>
 );
 

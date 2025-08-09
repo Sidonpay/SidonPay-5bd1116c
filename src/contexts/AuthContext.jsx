@@ -222,30 +222,73 @@ export function AuthProvider({ children }) {
   };
 
   // Forgot password function
-  const forgotPassword = async (email) => {
-    try {
-      const response = await fetch("/api/auth/forgot-password", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email }),
-      });
+  // const forgotPassword = async (email) => {
+  //   try {
+  //     const response = await fetch("/api/auth/forgot-password", {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //       body: JSON.stringify({ email }),
+  //     });
 
-      const data = await response.json();
+  //     const data = await response.json();
 
-      if (response.ok) {
-        return { success: true, message: data.message };
-      } else {
-        return {
-          success: false,
-          error: data.message || "Failed to send reset email",
+  //     if (response.ok) {
+  //       return { success: true, message: data.message };
+  //     } else {
+  //       return {
+  //         success: false,
+  //         error: data.message || "Failed to send reset email",
+  //       };
+  //     }
+  //   } catch (error) {
+  //     return { success: false, error: "Network error. Please try again." };
+  //   }
+  // };
+
+  // Forgot password function (mock data)
+      const forgotPassword = async (email) => {
+        try {
+          // Simulate network delay
+          await new Promise((resolve) => setTimeout(resolve, 1000));
+
+        // Mock users (same as your login mock)
+        const mockUsers = {
+          "admin@sidonpay.com": true,
+          "analyst@sidonpay.com": true,
         };
+
+        if (mockUsers[email]) {
+          // Simulate success
+          return { success: true, message: "Reset email sent!" };
+        } else {
+          // Simulate error for unknown email
+          return { success: false, error: "Email not found." };
+        }
+      } catch (error) {
+        return { success: false, error: "Network error. Please try again." };
       }
-    } catch (error) {
-      return { success: false, error: "Network error. Please try again." };
-    }
-  };
+    };
+
+
+    // Verify reset code function (mock)
+    const verifyResetCode = async (email, code) => {
+      try {
+        // Simulate network delay
+        await new Promise((resolve) => setTimeout(resolve, 800));
+
+        // List of validate codes
+        const validCodes = ["1234", "5678", "9012", "9999", "4321"]; // Mock valid codes
+
+        if (validCodes.includes(code)) {
+          return { success: true };
+        }
+        return { success: false, error: "Invalid code." };
+      } catch (error) {
+        return { success: false, error: "Network error. Please try again." };
+      }
+    };
 
   // Reset password function
   const resetPassword = async (token, password) => {
@@ -308,6 +351,7 @@ export function AuthProvider({ children }) {
     login,
     logout,
     forgotPassword,
+    verifyResetCode,
     resetPassword,
     updateUser,
     clearError,
