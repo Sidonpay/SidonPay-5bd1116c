@@ -53,6 +53,20 @@ const App = () => {
                       </AuthLayout>
                     }
                   />
+                   <Route
+                      path="/forgot-password"
+                      element={
+                        <AuthLayout leftImage="/mu-sub-log.png">
+                          <ForgotPasswordPage />
+                        </AuthLayout>
+                      }
+                    >
+                      <Route index element={<Navigate to="request" replace />} />
+                      <Route path="request" element={<ForgotPasswordRequest />} />
+                      <Route path="email-sent" element={<ForgotPasswordEmailSent />} />
+                      <Route path="verify" element={<ForgotPasswordVerify />} />
+                      <Route path="reset" element={<ResetPassword />} />
+                    </Route>
                   <Route
                     path="/"
                     element={

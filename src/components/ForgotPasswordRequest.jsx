@@ -63,8 +63,8 @@ const ForgotPasswordRequest = () => {
           autoComplete="username"
           error={!!error}
         />
-        <span className="text-xs text-contrast">
-          Please enter your registered email
+        <span className={`text-xs mt-2 ${error ? "text-red-500" : "text-contrast"}`}>
+          {error ? error : "Please enter your registered email"}
         </span>
         <AuthButton
           type="submit"
@@ -86,7 +86,6 @@ const ForgotPasswordRequest = () => {
             Cancel
           </Link>
         </div>
-        {error && <div className="text-red-500 text-xs mt-2">{error}</div>}
       </form>
     </>
   );

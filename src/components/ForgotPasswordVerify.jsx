@@ -2,7 +2,7 @@ import { useRef, useState, useEffect } from "react";
 import { useAuth } from "../contexts/AuthContext";
 import AuthButton from "./AuthButton";
 import LoadingSpinner from "./LoadingSpinner";
-import { SpinnerOverlay, SuccessOverlay } from "./VerifyOverlay";
+import { SpinnerOverlay } from "./VerifyOverlay";
 import { useForgotPassword } from "../contexts/ForgotPasswordContext";
 import { useNavigate } from "react-router-dom";
 
@@ -15,7 +15,6 @@ const ForgotPasswordVerify = () => {
   const [timer, setTimer] = useState(120);
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [successAnim, setSuccessAnim] = useState(false);
   const codeRefs = useRef([]);
   const navigate = useNavigate();
 
@@ -57,12 +56,8 @@ const ForgotPasswordVerify = () => {
     const result = await verifyResetCode(email, input.join(""));
     if (result.success) {
       setTimeout(() => {
-        setSuccessAnim(true);
-        setTimeout(() => {
-          setLoading(false);
-          setSuccessAnim(false);
-          navigate("/forgot-password/reset");
-        }, 900);
+        setLoading(false);
+        navigate("/forgot-password/reset");
       }, 900);
     } else {
       setLoading(false);
@@ -138,8 +133,7 @@ const ForgotPasswordVerify = () => {
         >
           Resend Code
         </button>
-        {loading && !successAnim && <SpinnerOverlay />}
-        {successAnim && <SuccessOverlay />}
+        {loading && <SpinnerOverlay />}
       </form>
     </>
   );

@@ -100,7 +100,7 @@ export default function ResetPassword({ email, token }) {
   return (
     <>
       <h2 className="text-[1.35rem] font-bold my-3">New Credentials</h2>
-      <ul className="text-xs mb-4 ">
+      <ul className="text-xs mb-4 mt-2 space-y-2 text-[#7B7B7B]">
         <RequirementItem
           checked={showReqError ? reqs.length : null}
           text="Password must be at least 8 characters long."
