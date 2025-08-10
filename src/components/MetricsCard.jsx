@@ -19,7 +19,7 @@ const MetricsCard = ({ bgColor, title, value, percent, rising }) => {
           <div className="flex gap-2 items-center">
             <span
               className={`hidden sm:block ${
-                open ? "lg:hidden" : ""
+                open ? "lg:hidden xl:block" : ""
               } text-xs text-nowrap`}
             >
               <span>{rising ? "+" : "-"}</span>
