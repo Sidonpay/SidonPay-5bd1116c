@@ -10,13 +10,13 @@ import NotificationsBlock from "../components/NotificationsBlock";
 import { useContext, useState } from "react";
 import SidebarContext from "../contexts/SidebarContext";
 import NotificationContext from "../contexts/NotificationContext";
-import { tabs, tabContent } from "../components/Tabs";
+import { overviewChartsTabs, overviewChartsTabContent } from "../components/OverviewChartsTabs";
 
 
 function OverviewPage() {
   const { open } = useContext(SidebarContext);
   const { notify } = useContext(NotificationContext);
-  const [activeTab, setActiveTab] = useState("tab1")
+  const [activeChartTab, setActiveChartTab] = useState("tab1")
 
   return (
     <AnimatePresence>
@@ -26,7 +26,7 @@ function OverviewPage() {
         exit={{ opacity: 0, scale: 0 }}
         className="flex max-h-screen pb-24"
       >
-        <div className="px-3 md:px-6 overflow-y-auto items-stretch flex-1">
+        <div className="px-3 md:px-6 items-stretch flex-1">
           <div className="">
             {/* Page Header */}
             <div className="flex py-8 justify-between">
@@ -90,20 +90,20 @@ function OverviewPage() {
                 </div>
               </div> */}
                 <div className="mb-4">
-                  {tabs.map((tab) => (
+                  {overviewChartsTabs.map((tab) => (
                     <button
                       key={tab.id}
                       className={`text-sm px-1 ${
-                        activeTab === tab.id ? "font-semibold" : ""
+                        activeChartTab === tab.id ? "font-semibold" : ""
                       }`}
-                      onClick={() => setActiveTab(tab.id)}
+                      onClick={() => setActiveChartTab(tab.id)}
                     >
                       {tab.label}
                     </button>
                   ))}
                 </div>
                 <div className="flex items-center h-64">
-                  {tabContent[activeTab]}
+                  {overviewChartsTabContent[activeChartTab]}
                 </div>
               </div>
 

@@ -33,7 +33,7 @@ const SidebarMenu = ({ path, Icon, text }) => {
       {Icon && <Icon size="20" />}
       <span
         className={`transition-all duration-300 ease-linear overflow-hidden { ${
-          open ? "w-38 ml-2" : "w-0 ml-0"
+          open ? "w-38 ml-2" : "w-0 ml-0 hidden"
         } }`}
       >
         {text}
