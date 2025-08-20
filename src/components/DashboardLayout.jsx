@@ -44,7 +44,7 @@ function DashboardLayout() {
         <Header />
 
         {/* Page content */}
-        <main className="overflow-y-auto">
+        <main className="overflow-y-auto flex-1">
           <Outlet />
         </main>
       </div>

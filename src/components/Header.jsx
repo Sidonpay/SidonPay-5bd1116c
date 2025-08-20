@@ -43,85 +43,89 @@ function Header() {
   
 
   return (
-    <header className="px-2 py-4 md:p-6 border-b">
-      <div className="flex items-center justify-between flex-wrap">
-        {/* Page title area */}
-        <div className="flex items-center gap-2 lg:gap-4 xl:gap-6">
-          {open ? (
-            <SidebarClose
-              fill="black"
-              color="#F8F8F8"
-              strokeWidth={1.5}
-              size={20}
-              onClick={() => handleSidebar()}
-            />
-          ) : (
-            <SidebarOpen
-              fill="black"
-              color="#F8F8F8"
-              strokeWidth={1.5}
-              size={20}
-              onClick={() => handleSidebar()}
-            />
-          )}
+    <header className="px-2 md:px-6 h-16 md:h-20 border-b flex items-center justify-between flex-wrap">
+      {/* Page title area */}
+      <div className="flex items-center gap-2 lg:gap-4 xl:gap-6">
+        {open ? (
+          <SidebarClose
+            fill="black"
+            color="#F8F8F8"
+            strokeWidth={1.5}
+            size={20}
+            onClick={() => handleSidebar()}
+            className="pointer-cursor"
+          />
+        ) : (
+          <SidebarOpen
+            fill="black"
+            color="#F8F8F8"
+            strokeWidth={1.5}
+            size={20}
+            onClick={() => handleSidebar()}
+            className="pointer-cursor"
+          />
+        )}
 
-          <div
-            className={`flex items-center gap-2 lg:gap-4 xl:gap-6 text-xs text-contrast sm:min-w-56 lg:min-w-64`}
-          >
-            <h2 className="hidden md:block">Dashboard</h2>
-            <span>/</span>
-            <h2 className="text-xs text-brand_color2 font-bold">{page}</h2>
-          </div>
+        <div
+          className={`flex items-center gap-2 lg:gap-4 xl:gap-6 text-xs text-contrast sm:min-w-56 lg:min-w-64`}
+        >
+          <h2 className="hidden md:block">Dashboard</h2>
+          <span>/</span>
+          <h2 className="text-xs text-brand_color2 font-bold">{page}</h2>
+        </div>
+      </div>
+
+      {/* Header actions */}
+      <div className="flex items-center space-x-4">
+        {/* Search */}
+        <div
+          className={`hidden items-center gap-2 px-3 py-2 bg-neutral-200 border border-base_grey rounded-full focus:outline-none focus:ring-1 focus:ring-secondary focus:border-transparent text-contrast ${
+            open ? "lg:flex" : "sm:flex"
+          }`}
+        >
+          <Search strokeWidth={1} size={16} />
+          <input
+            type="text"
+            placeholder="Search" name="search"
+            className={`${
+              open ? "min-w-0 w-64 md:w-36 xl:w-64" : "min-w-0 w-64"
+            } text-xs text-brand_color2 transition-all duration-300 bg-transparent placeholder:text-xs border-0 focus:ring-0 focus:outline-none focus:border-0`}
+          />
+        </div>
+      </div>
+
+      {/* User profile */}
+      <div className="flex gap-3 items-center">
+        <div
+          className={`flex items-center lg:gap-2 p-2 border border-base_grey rounded-full focus:outline-none focus:ring-1 focus:ring-secondary focus:border-transparent text-contrast ${
+            open ? "lg:hidden" : "sm:hidden"
+          }`}
+        >
+          <Search strokeWidth={1} size={16} />
         </div>
 
-        {/* Header actions */}
-        <div className="flex items-center space-x-4">
-          {/* Search */}
+        {/* Notifications */}
+        <div className={`relative ${page == "Home" ? "" : "invisible"} `}>
           <div
-            className={`hidden sm:flex items-center lg:gap-2 p-2 bg-neutral-200 border border-base_grey rounded-full focus:outline-none focus:ring-1 focus:ring-secondary focus:border-transparent text-contrast`}
+            onClick={() => handleNotification()}
+            className="text-contrast hover:text-secondary relative"
           >
-            <Search strokeWidth={1} size={16} />
-            <input
-              type="text"
-              placeholder="Search"
-              className={`${
-                open ? "w-64 md:w-36 xl:w-64" : "w-64"
-              } text-xs text-brand_color2 transition-all duration-300 bg-transparent placeholder:text-xs border-0 focus:ring-0 focus:outline-none focus:border-0`}
-            />
+            <span className="sr-only">Notifications</span>
+            <Bell size={20} />
           </div>
+          <div className="w-2 h-2 rounded-full bg-warning absolute top-0 right-0"></div>
         </div>
 
-        {/* User profile */}
-        <div className="flex gap-3 items-center">
-          <div
-            className={`flex sm:hidden items-center lg:gap-2 p-2 border border-base_grey rounded-full focus:outline-none focus:ring-1 focus:ring-secondary focus:border-transparent text-contrast`}
-          >
-            <Search strokeWidth={1} size={16} />
-          </div>
-
-          {/* Notifications */}
-          <div className={`relative ${page == "Home" ? "" : "invisible"} `}>
-            <div
-              onClick={() => handleNotification()}
-              className="text-contrast hover:text-secondary relative"
-            >
-              <span className="sr-only">Notifications</span>
-              <Bell size={20} />
-            </div>
-            <div className="w-2 h-2 rounded-full bg-warning absolute top-0 right-0"></div>
-          </div>
-
-          <div className="flex items-center gap-2">
-            <div className="w-6 h-6 bg-button bg-opacity-80 rounded-lg flex items-center justify-center">
-              <span className="text-sm font-medium text-white">
-                {user?.name?.charAt(0) || "U"}
-              </span>
-            </div>
-            <span className="hidden lg:block text-xs font-medium text-brand_color2">
-              {user?.name}
+        <div className="flex items-center gap-2">
+          <div className="w-6 h-6 bg-button bg-opacity-80 rounded-lg flex items-center justify-center">
+            <span className="text-sm font-medium text-white">
+              {user?.name?.charAt(0) || "U"}
             </span>
-            <ChevronDown size={14} className="text-contrast" />
           </div>
+          <span className="hidden lg:block text-xs font-medium text-brand_color2">
+            {user?.name}
+          </span>
+          <ChevronDown size={14} className="text-contrast" />
         </div>
       </div>
     </header>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import {
   ArrowLeft,
@@ -10,8 +10,11 @@ import {
 } from "lucide-react";
 import { PaymentsTabs, PaymentsTabContent } from "../components/PaymentsTabs";
 import ReceiptModal from "../components/ReceiptModal";
+import { Link } from "react-router-dom";
+import CurrentPage from "../contexts/CurrentPageContext";
 
 const PaymentProcessingPage = () => {
+  const { setPage } = useContext(CurrentPage)
   const [activePaymentsTab, setActivePaymentsTab] = useState("successful_tab");
 
   return (
@@ -39,12 +42,14 @@ const PaymentProcessingPage = () => {
               <ArrowUp size={14} />
               <span className="hidden md:block">Export</span>
             </button>
-            <button
-              className={`flex items-center px-3 gap-1 md:border md:border-light-gray2 bg-button bg-opacity-10 rounded-md hover:bg-button_primary hover:bg-opacity-100 text-brand_color1 font-bold hover:text-white duration-300`}
+            <Link to="/create-payment"
+              className={`flex items-center px-3 gap-1 md:border md:border-light-gray2 bg-button bg-opacity-10 rounded-md hover:bg-button_primary hover:bg-opacity-100 text-brand_color1 font-bold hover:text-white duration-300`} onClick={() => {
+                setPage("Create payment")
+              }}
             >
               <Plus size={14} />
               <span className="hidden md:block">Create payment</span>
-            </button>
+            </Link>
           </div>
         </div>
 

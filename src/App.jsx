@@ -25,6 +25,7 @@ import DisputesPage from "./pages/DisputesPage";
 import PayoutsPage from "./pages/PayoutsPage";
 import AllTransactionsPage from "./pages/AllTransactionsPage";
 import { useState } from "react";
+import CreatePaymentPage from "./pages/CreatePaymentPage.jsx";
 
 const App = () => {
   const [open, setOpen] = useState(false);
@@ -43,45 +44,49 @@ const App = () => {
                 <PaymentReceiptContext.Provider
                   value={{ paymentReceipt, setPaymentReceipt }}
                 >
-                <ShowReceiptContext.Provider
-                  value={{ showReceipt, setShowReceipt }}
-                >
-                  <Routes>
-                    <Route
-                      path="/login"
-                      element={
-                        <AuthLayout leftImage="/mu-sub-log.png">
-                          <LoginPage />
-                        </AuthLayout>
-                      }
-                    />
-                    <Route
-                      path="/"
-                      element={
-                        <ProtectedRoute>
-                          <DashboardLayout />
-                        </ProtectedRoute>
-                      }
-                    >
-                      <Route index element={<OverviewPage />} />
+                  <ShowReceiptContext.Provider
+                    value={{ showReceipt, setShowReceipt }}
+                  >
+                    <Routes>
                       <Route
-                        path="payments-processing"
-                        element={<PaymentProcessingPage />}
+                        path="/login"
+                        element={
+                          <AuthLayout leftImage="/mu-sub-log.png">
+                            <LoginPage />
+                          </AuthLayout>
+                        }
                       />
                       <Route
-                        path="update-user-profile"
-                        element={<UserProfilePage />}
-                      />
-                      <Route path="reviews" element={<ReviewsPage />} />
-                      <Route path="disputes" element={<DisputesPage />} />
-                      <Route path="payouts" element={<PayoutsPage />} />
-                      <Route
-                        path="all-transactions"
-                        element={<AllTransactionsPage />}
-                      />
-                      {/* other routes */}
-                    </Route>
-                  </Routes>
+                        path="/"
+                        element={
+                          <ProtectedRoute>
+                            <DashboardLayout />
+                          </ProtectedRoute>
+                        }
+                      >
+                        <Route index element={<OverviewPage />} />
+                        <Route
+                          path="payments-processing"
+                          element={<PaymentProcessingPage />}
+                        />
+                        <Route
+                          path="update-user-profile"
+                          element={<UserProfilePage />}
+                        />
+                        <Route path="reviews" element={<ReviewsPage />} />
+                        <Route path="disputes" element={<DisputesPage />} />
+                        <Route path="payouts" element={<PayoutsPage />} />
+                        <Route
+                          path="all-transactions"
+                          element={<AllTransactionsPage />}
+                        />
+                        <Route
+                          path="create-payment"
+                          element={<CreatePaymentPage />}
+                        />
+                        {/* other routes */}
+                      </Route>
+                    </Routes>
                   </ShowReceiptContext.Provider>
                 </PaymentReceiptContext.Provider>
               </NotificationContext.Provider>
