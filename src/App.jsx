@@ -24,13 +24,15 @@ import DisputesPage from "./pages/DisputesPage";
 import PayoutsPage from "./pages/PayoutsPage";
 import AllTransactionsPage from "./pages/AllTransactionsPage";
 import ForgotPasswordPage from "./pages/ForgotPasswordPage";
+import NewCredentialsPage from "./pages/NewCredentialsPage.jsx";
+import NotFoundPage from "./pages/NotFoundPage";
+import CreateAdminProfilePage from "./pages/CreateAdminProfilePage";
 import { useState } from "react";
 
 // Forgot Password Steps (Components)
 import ForgotPasswordRequest from "./components/ForgotPasswordRequest";
 import ForgotPasswordEmailSent from "./components/ForgotPasswordEmailSent";
 import ForgotPasswordVerify from "./components/ForgotPasswordVerify";
-import ResetPassword from "./components/ResetPassword"; 
 
 const App = () => {
   const [open, setOpen] = useState(false);
@@ -53,20 +55,47 @@ const App = () => {
                       </AuthLayout>
                     }
                   />
-                   <Route
-                      path="/forgot-password"
-                      element={
+                  <Route
+                    path="/forgot-password"
+                    element={
+                      <AuthLayout leftImage="/mu-sub-log.png">
+                        <ForgotPasswordPage />
+                      </AuthLayout>
+                    }
+                  >
+                    <Route index element={<Navigate to="request" replace />} />
+                    <Route path="request" element={<ForgotPasswordRequest />} />
+                    <Route path="email-sent" element={<ForgotPasswordEmailSent />} />
+                    <Route path="verify" element={<ForgotPasswordVerify />} />
+                  </Route>
+                  {/* New credentials routes */}
+                  <Route
+                    path="/reset-password/:token"
+                    element={
+                      <AuthLayout leftImage="/mu-sub-log.png">
+                        <NewCredentialsPage />
+                      </AuthLayout>
+                    }
+                  />
+                  <Route
+                    path="/change-temp-password"
+                    element={
+                      <AuthLayout leftImage="/mu-sub-log.png">
+                        <NewCredentialsPage />
+                      </AuthLayout>
+                    }
+                  />
+                  {/* Create Admin Profile Route (Super Admin only) */}
+                  <Route
+                    path="/create-admin"
+                    element={
+                      <ProtectedRoute requiredRole="super_admin">
                         <AuthLayout leftImage="/mu-sub-log.png">
-                          <ForgotPasswordPage />
+                          <CreateAdminProfilePage />
                         </AuthLayout>
-                      }
-                    >
-                      <Route index element={<Navigate to="request" replace />} />
-                      <Route path="request" element={<ForgotPasswordRequest />} />
-                      <Route path="email-sent" element={<ForgotPasswordEmailSent />} />
-                      <Route path="verify" element={<ForgotPasswordVerify />} />
-                      <Route path="reset" element={<ResetPassword />} />
-                    </Route>
+                      </ProtectedRoute>
+                    }
+                  />
                   <Route
                     path="/"
                     element={
@@ -93,6 +122,8 @@ const App = () => {
                     />
                     {/* other routes */}
                   </Route>
+                  {/* 404 Catch-all Route */}
+                  <Route path="*" element={<NotFoundPage />} />
                 </Routes>
               </NotificationContext.Provider>
             </CurrentPage.Provider>

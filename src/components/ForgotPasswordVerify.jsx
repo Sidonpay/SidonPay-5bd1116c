@@ -5,6 +5,7 @@ import LoadingSpinner from "./LoadingSpinner";
 import { SpinnerOverlay } from "./VerifyOverlay";
 import { useForgotPassword } from "../contexts/ForgotPasswordContext";
 import { useNavigate } from "react-router-dom";
+import { HangTightOverlay } from "./HangTightOverlay";
 
 const CODE_LENGTH = 4;
 
@@ -15,6 +16,7 @@ const ForgotPasswordVerify = () => {
   const [timer, setTimer] = useState(120);
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [showHangTight, setShowHangTight] = useState(false);
   const codeRefs = useRef([]);
   const navigate = useNavigate();
 
@@ -57,7 +59,7 @@ const ForgotPasswordVerify = () => {
     if (result.success) {
       setTimeout(() => {
         setLoading(false);
-        navigate("/forgot-password/reset");
+        setShowHangTight(true); // Show overlay instead of navigating to reset
       }, 900);
     } else {
       setLoading(false);
@@ -135,6 +137,7 @@ const ForgotPasswordVerify = () => {
         </button>
         {loading && <SpinnerOverlay />}
       </form>
+      {showHangTight && <HangTightOverlay />}
     </>
   );
 };

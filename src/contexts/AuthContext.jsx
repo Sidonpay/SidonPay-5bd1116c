@@ -1,13 +1,14 @@
 /*
   AuthContext for SidonPay Internal Dashboard
-  
+
   This is an internal admin dashboard for managing mobile app data.
   User registration is handled by backend/admin - no self-registration needed.
-  
+
   MOCK LOGIN CREDENTIALS (for development):
-  - admin@sidonpay.com / password123 (Super Admin)
+  - superadmin@sidonpay.com / password123 (Super Admin)
+  - admin@sidonpay.com / password123 (Admin)
   - analyst@sidonpay.com / password123 (Analyst)
-  
+
   TODO: Replace mock functions with real API calls when backend is ready
 */
 
@@ -117,20 +118,32 @@ export function AuthProvider({ children }) {
 
       // Mock admin users (replace with real backend authentication)
       const mockUsers = {
-        "admin@sidonpay.com": {
+        "superadmin@sidonpay.com": {
           id: 1,
-          name: "Admin User",
-          email: "admin@sidonpay.com",
+          name: "Super Admin",
+          email: "superadmin@sidonpay.com",
           role: "super_admin",
           permissions: [
             "view_dashboard",
             "manage_users",
             "view_payments",
             "manage_payments",
+            "create_admin",
+          ],
+        },
+        "admin@sidonpay.com": {
+          id: 2,
+          name: "Admin User",
+          email: "admin@sidonpay.com",
+          role: "admin",
+          permissions: [
+            "view_dashboard",
+            "view_payments",
+            "manage_payments",
           ],
         },
         "analyst@sidonpay.com": {
-          id: 2,
+          id: 3,
           name: "Data Analyst",
           email: "analyst@sidonpay.com",
           role: "analyst",
@@ -221,74 +234,48 @@ export function AuthProvider({ children }) {
     }
   };
 
-  // Forgot password function
-  // const forgotPassword = async (email) => {
-  //   try {
-  //     const response = await fetch("/api/auth/forgot-password", {
-  //       method: "POST",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //       body: JSON.stringify({ email }),
-  //     });
-
-  //     const data = await response.json();
-
-  //     if (response.ok) {
-  //       return { success: true, message: data.message };
-  //     } else {
-  //       return {
-  //         success: false,
-  //         error: data.message || "Failed to send reset email",
-  //       };
-  //     }
-  //   } catch (error) {
-  //     return { success: false, error: "Network error. Please try again." };
-  //   }
-  // };
-
   // Forgot password function (mock data)
-      const forgotPassword = async (email) => {
-        try {
-          // Simulate network delay
-          await new Promise((resolve) => setTimeout(resolve, 1000));
+  const forgotPassword = async (email) => {
+    try {
+      // Simulate network delay
+      await new Promise((resolve) => setTimeout(resolve, 1000));
 
-        // Mock users (same as your login mock)
-        const mockUsers = {
-          "admin@sidonpay.com": true,
-          "analyst@sidonpay.com": true,
-        };
+      // Mock users (same as your login mock)
+      const mockUsers = {
+        "superadmin@sidonpay.com": true,
+        "admin@sidonpay.com": true,
+        "analyst@sidonpay.com": true,
+      };
 
-        if (mockUsers[email]) {
-          // Simulate success
-          return { success: true, message: "Reset email sent!" };
-        } else {
-          // Simulate error for unknown email
-          return { success: false, error: "Email not found." };
-        }
-      } catch (error) {
-        return { success: false, error: "Network error. Please try again." };
+      if (mockUsers[email]) {
+        // Simulate success
+        return { success: true, message: "Reset email sent!" };
+      } else {
+        // Simulate error for unknown email
+        return { success: false, error: "Email not found." };
       }
-    };
+    } catch (error) {
+      return { success: false, error: "Network error. Please try again." };
+    }
+  };
 
+  // Verify reset code function (mock)
+  const verifyResetCode = async (email, code) => {
+    try {
+      // Simulate network delay
+      await new Promise((resolve) => setTimeout(resolve, 800));
 
-    // Verify reset code function (mock)
-    const verifyResetCode = async (email, code) => {
-      try {
-        // Simulate network delay
-        await new Promise((resolve) => setTimeout(resolve, 800));
+      // List of validate codes
+      const validCodes = ["1234", "5678", "9012", "9999", "4321"]; // Mock valid codes
 
-        // List of validate codes
-        const validCodes = ["1234", "5678", "9012", "9999", "4321"]; // Mock valid codes
-
-        if (validCodes.includes(code)) {
-          return { success: true };
-        }
-        return { success: false, error: "Invalid code." };
-      } catch (error) {
-        return { success: false, error: "Network error. Please try again." };
+      if (validCodes.includes(code)) {
+        return { success: true };
       }
-    };
+      return { success: false, error: "Invalid code." };
+    } catch (error) {
+      return { success: false, error: "Network error. Please try again." };
+    }
+  };
 
   // Reset password function
   const resetPassword = async (token, password) => {
