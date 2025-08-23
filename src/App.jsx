@@ -13,7 +13,15 @@ import { AuthProvider } from "./contexts/AuthContext";
 import SidebarContext from "./contexts/SidebarContext";
 import CurrentPage from "./contexts/CurrentPageContext.jsx";
 import NotificationContext from "./contexts/NotificationContext.jsx";
-import {PaymentReceiptContext, ShowReceiptContext} from "./contexts/PaymentReceiptContext.jsx";
+import {
+  PaymentReceiptContext,
+  ShowReceiptContext,
+} from "./contexts/PaymentReceiptContext.jsx";
+import {
+  ShowPaymentFormContext,
+  PaymentFormDetailsContext,
+  PaymentFormPreviewContext
+} from "./contexts/PaymentFormContext.jsx";
 
 // Pages
 import OverviewPage from "./pages/OverviewPage";
@@ -31,8 +39,11 @@ const App = () => {
   const [open, setOpen] = useState(false);
   const [page, setPage] = useState("Home");
   const [notify, setNotify] = useState(false);
-  const [paymentReceipt, setPaymentReceipt] = useState({})
-  const [showReceipt, setShowReceipt] = useState(false)
+  const [paymentReceipt, setPaymentReceipt] = useState({});
+  const [showReceipt, setShowReceipt] = useState(false);
+  const [showForm, setShowForm] = useState(false);
+  const [formDetails, setFormDetails] = useState({});
+  const [paymentFormPreview, setPaymentFormPreview] = useState(false);
 
   return (
     <div className="font-mont bg-base_white">
@@ -47,46 +58,57 @@ const App = () => {
                   <ShowReceiptContext.Provider
                     value={{ showReceipt, setShowReceipt }}
                   >
-                    <Routes>
-                      <Route
-                        path="/login"
-                        element={
-                          <AuthLayout leftImage="/mu-sub-log.png">
-                            <LoginPage />
-                          </AuthLayout>
-                        }
-                      />
-                      <Route
-                        path="/"
-                        element={
-                          <ProtectedRoute>
-                            <DashboardLayout />
-                          </ProtectedRoute>
-                        }
+                    <ShowPaymentFormContext.Provider
+                      value={{ showForm, setShowForm }}
+                    >
+                      <PaymentFormDetailsContext.Provider
+                        value={{ formDetails, setFormDetails }}
                       >
-                        <Route index element={<OverviewPage />} />
-                        <Route
-                          path="payments-processing"
-                          element={<PaymentProcessingPage />}
-                        />
-                        <Route
-                          path="update-user-profile"
-                          element={<UserProfilePage />}
-                        />
-                        <Route path="reviews" element={<ReviewsPage />} />
-                        <Route path="disputes" element={<DisputesPage />} />
-                        <Route path="payouts" element={<PayoutsPage />} />
-                        <Route
-                          path="all-transactions"
-                          element={<AllTransactionsPage />}
-                        />
-                        <Route
-                          path="create-payment"
-                          element={<CreatePaymentPage />}
-                        />
-                        {/* other routes */}
-                      </Route>
-                    </Routes>
+                        <PaymentFormPreviewContext.Provider
+                          value={{ paymentFormPreview, setPaymentFormPreview }}>
+                        <Routes>
+                          <Route
+                            path="/login"
+                            element={
+                              <AuthLayout leftImage="/mu-sub-log.png">
+                                <LoginPage />
+                              </AuthLayout>
+                            }
+                          />
+                          <Route
+                            path="/"
+                            element={
+                              <ProtectedRoute>
+                                <DashboardLayout />
+                              </ProtectedRoute>
+                            }
+                          >
+                            <Route index element={<OverviewPage />} />
+                            <Route
+                              path="payments-processing"
+                              element={<PaymentProcessingPage />}
+                            />
+                            <Route
+                              path="update-user-profile"
+                              element={<UserProfilePage />}
+                            />
+                            <Route path="reviews" element={<ReviewsPage />} />
+                            <Route path="disputes" element={<DisputesPage />} />
+                            <Route path="payouts" element={<PayoutsPage />} />
+                            <Route
+                              path="all-transactions"
+                              element={<AllTransactionsPage />}
+                            />
+                            <Route
+                              path="create-payment"
+                              element={<CreatePaymentPage />}
+                            />
+                            {/* other routes */}
+                          </Route>
+                        </Routes>
+                        </PaymentFormPreviewContext.Provider>
+                      </PaymentFormDetailsContext.Provider>
+                    </ShowPaymentFormContext.Provider>
                   </ShowReceiptContext.Provider>
                 </PaymentReceiptContext.Provider>
               </NotificationContext.Provider>
