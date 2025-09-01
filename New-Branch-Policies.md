@@ -2,6 +2,14 @@
 
 **Goal:** keep work tidy, reviews simple, and production safe.
 
+**BEFORE YOU START PLEASE NOTE THAT THE REMOTE URL OF THE REPO HAS CHANGED SO DO THE FOLLOWING IMMEDIATELY**
+
+```bash
+git remote -v #step 1
+git remote set-url origin https://github.com/Sidonpay/SidonPay-5bd1116c.git #step 1
+git remote -v #step 1
+```
+
 ## 🗺️ Branch Map (who works where)
 
 ```
