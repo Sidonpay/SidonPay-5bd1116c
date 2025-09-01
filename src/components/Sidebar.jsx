@@ -78,18 +78,18 @@ function Sidebar() {
 
         <div
           onClick={toggleDropdown}
-          className="flex items-center gap-2 text-brand_color1 py-3 px-2"
+          className={`flex items-center gap-2 text-brand_color1 py-3 px-2 ${ open ? "" : "justify-center "}`}
         >
-          <Dices />
+          <Dices className={`${open ? "" : "w-0 hidden"}`} />
           <span
             className={`overflow-hidden transition-all duration-300 ease-linear ${
-              open ? "w-48 md:w-32 lg:44 ml-2" : "w-0 ml-0"
+              open ? "w-48 md:w-32 lg:44 ml-2" : "w-0 ml-0 hidden"
             } `}
           >
             More
           </span>
           <ChevronDown
-            className={`ml-auto transition-transform duration-300 ease-linear ${
+            className={`${open ? "ml-auto" : ""} transition-transform duration-300 ease-linear ${
               dropdown ? "-rotate-180" : ""
             }`}
           />
