@@ -26,13 +26,8 @@ const LoginForm = () => {
     e.preventDefault();
     const result = await login(form);
     if (result?.success) {
-      if (result.user.role === "super_admin") {
-        navigate("/superadmin-dashboard", { replace: true });
-      } else if (result.user.role === "admin") {
-        navigate("/admin-dashboard", { replace: true });
-      } else {
-        navigate(from, { replace: true });
-      }
+      // Redirect all users to dashboard
+      navigate("/", { replace: true });
     } else if (result?.error === "Invalid email or password") {
       setShowAccessDenied(true);
     } else {
