@@ -18,7 +18,7 @@ import {
   CreditCard,
   Gift,
   FileChartColumn,
-  SidebarClose,
+  X,
 } from "lucide-react";
 import SidebarContext from "../contexts/SidebarContext";
 
@@ -29,8 +29,8 @@ function Sidebar() {
   const { logout } = useAuth();
 
   const toggleDropdown = () => {
-  //toggle for dropdown-menu and chevron rotation
-    dropdown ? setDropdown(false) : setDropdown(true);
+    // toggle for dropdown-menu and chevron rotation
+    setDropdown((prev) => !prev);
   };
 
   return (
@@ -49,14 +49,17 @@ function Sidebar() {
             open ? "w-24" : "w-0"
           } `}
         />
-        <SidebarClose
-        className="ml-auto md:hidden"
-          fill="black"
-          color="#F8F8F8"
-          strokeWidth={1.5}
-          size={20}
-          onClick={() => setOpen(false)}
-        />
+        {/* Only show X icon when sidebar is open */}
+        {open && (
+          <X
+            className="ml-auto block md:block lg:hidden"
+            fill="#2D7A51"
+            color="#2D7A51"
+            strokeWidth={1.5}
+            size={32}
+            onClick={() => setOpen(false)}
+          />
+        )}
       </div>
 
       {/* Navigation */}
@@ -78,7 +81,7 @@ function Sidebar() {
 
         <div
           onClick={toggleDropdown}
-          className={`flex items-center gap-2 text-brand_color1 py-3 px-2 ${ open ? "" : "justify-center "}`}
+          className={`flex items-center gap-2 text-brand_color1 py-3 px-2 ${open ? "" : "justify-center "}`}
         >
           <Dices className={`${open ? "" : "w-0 hidden"}`} />
           <span
@@ -97,7 +100,7 @@ function Sidebar() {
 
         <div
           className={`overflow-hidden transition-all transition-discrete duration-500 ${
-            dropdown == true ? "max-h-48" : "max-h-0"
+            dropdown ? "max-h-48" : "max-h-0"
           }`}
         >
           <SidebarMenu
