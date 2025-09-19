@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { ArrowLeft, ArrowRight, Ellipsis } from 'lucide-react';
 import { PaymentReceiptContext, ShowReceiptContext } from '../contexts/PaymentReceiptContext';
 
-const PaymentsTable = ({paymentType}) => {
+const PaymentsTable = ({paymentType, onHide, onDelete}) => {
   const { setPaymentReceipt } = useContext(PaymentReceiptContext)
   const { setShowReceipt } = useContext(ShowReceiptContext)
 
@@ -40,6 +40,8 @@ const PaymentsTable = ({paymentType}) => {
               desc={item.desc}
               customer={item.customer}
               date={item.date}
+              onHide={() => onHide && onHide(item, index)}
+              onDelete={() => onDelete && onDelete(item, index)}
             />
           ))}
         </tbody>

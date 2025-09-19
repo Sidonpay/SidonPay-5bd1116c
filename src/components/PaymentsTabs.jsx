@@ -1,12 +1,7 @@
 import React from "react";
-import {
-  allPayments,
-  refundedPayments,
-  successfulPayments,
-  uncapturedPayments,
-} from "./PaymentLists";
 import PaymentsTable from "./PaymentsTable";
 
+// Keep tab ids the same; content will be resolved by parent via API
 export const PaymentsTabs = [
   { id: "successful_tab", label: "Successful" },
   { id: "refunded_tab", label: "Refunded" },
@@ -14,9 +9,10 @@ export const PaymentsTabs = [
   { id: "all_tab", label: "All" },
 ];
 
+// PaymentsTabContent is now a placeholder — pages should fetch via paymentsApi
 export const PaymentsTabContent = {
-  successful_tab: <PaymentsTable paymentType={successfulPayments} />,
-  refunded_tab: <PaymentsTable paymentType={refundedPayments} />,
-  uncaptured_tab: <PaymentsTable paymentType={uncapturedPayments} />,
-  all_tab: <PaymentsTable paymentType={allPayments} />,
+  successful_tab: <PaymentsTable paymentType={[]} />,
+  refunded_tab: <PaymentsTable paymentType={[]} />,
+  uncaptured_tab: <PaymentsTable paymentType={[]} />,
+  all_tab: <PaymentsTable paymentType={[]} />,
 };

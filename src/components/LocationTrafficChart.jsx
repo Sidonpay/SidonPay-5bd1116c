@@ -1,13 +1,14 @@
 import React from "react";
 import { Cell, Legend, Pie, PieChart, ResponsiveContainer } from "recharts";
 
-const LocationTrafficChart = () => {
-  const chartData = [
+const LocationTrafficChart = ({ data }) => {
+  const fallback = [
     { location: "Lagos", traffic: 52.1 },
     { location: "Ibadan", traffic: 22.8 },
     { location: "Abuja", traffic: 13.9 },
     { location: "Other", traffic: 11.2 },
   ];
+  const chartData = data && data.length ? data : fallback;
   const SLICE_COLORS = ["url(#topCell)", "#92BFFF", "#94E9B8", "#AEC7ED"];
 
   return (

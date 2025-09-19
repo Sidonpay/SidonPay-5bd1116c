@@ -2,9 +2,9 @@ import React from 'react'
 
 import { Bar, BarChart, ResponsiveContainer, XAxis, YAxis } from "recharts";
 
-const WebsiteTrafficChart = () => {
+const WebsiteTrafficChart = ({ data }) => {
 
-    const chartData = [
+    const fallback = [
       { site: "Google", traffic: 60 },
       { site: "Youtube", traffic: 40 },
       { site: "Instagram", traffic: 35 },
@@ -12,6 +12,7 @@ const WebsiteTrafficChart = () => {
       { site: "Facebook", traffic: 32 },
       { site: "Twitter", traffic: 25 },
     ];
+    const chartData = data && data.length ? data : fallback;
 
 
   return (

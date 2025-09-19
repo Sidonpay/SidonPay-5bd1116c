@@ -1,0 +1,10 @@
+{
+  "name": "sidonpay-mock-server",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "node-fetch": "^3.3.2"
+  }
+}

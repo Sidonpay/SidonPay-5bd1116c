@@ -1,0 +1,268 @@
+{
+  "project": {
+    "name": "sidonpay-dashboard",
+    "description": "React (Vite) + Tailwind admin dashboard for SidonPay with auth, password reset, and payments flows.",
+    "repo": "TBD",
+    "live_url": "TBD"
+  },
+  "stack": {
+    "react": "19.1.0",
+    "vite": "7.0.4",
+    "tailwind": "3.4.17",
+    "router": "react-router-dom@7.7.0",
+    "typescript": false,
+    "ui_libs": ["lucide-react", "react-icons", "recharts", "motion"],
+    "test": "vitest"
+  },
+  "commands": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "lint": "echo 'Linting skipped for now' && exit 0"
+  },
+  "routing": {
+    "strategy": "BrowserRouter + nested <Routes>",
+    "public_routes": [
+      { "path": "/login", "element": "LoginPage", "layout": "AuthLayout" },
+      {
+        "path": "/forgot-password",
+        "element": "ForgotPasswordPage",
+        "layout": "AuthLayout",
+        "children": [
+          { "index_redirect": "request" },
+          { "path": "request", "element": "ForgotPasswordRequest" },
+          { "path": "email-sent", "element": "ForgotPasswordEmailSent" },
+          { "path": "verify", "element": "ForgotPasswordVerify" }
+        ]
+      },
+      {
+        "path": "/reset-password/:token",
+        "element": "NewCredentialsPage",
+        "layout": "AuthLayout"
+      },
+      {
+        "path": "/change-temp-password",
+        "element": "NewCredentialsPage",
+        "layout": "AuthLayout"
+      }
+    ],
+    "protected_shell": {
+      "path": "/",
+      "guard": "ProtectedRoute",
+      "layout": "DashboardLayout",
+      "children": [
+        { "index": true, "element": "OverviewPage" },
+        { "path": "payments-processing", "element": "PaymentProcessingPage" },
+        { "path": "update-user-profile", "element": "UserProfilePage" },
+        { "path": "reviews", "element": "ReviewsPage" },
+        { "path": "disputes", "element": "DisputesPage" },
+        { "path": "payouts", "element": "PayoutsPage" },
+        { "path": "all-transactions", "element": "AllTransactionsPage" },
+        { "path": "create-payment", "element": "CreatePaymentPage" }
+      ]
+    },
+    "admin_only": [
+      {
+        "path": "/create-admin",
+        "element": "CreateAdminProfilePage",
+        "requiredRole": "super_admin",
+        "layout": "AuthLayout"
+      }
+    ],
+    "fallback": { "path": "*", "element": "NotFoundPage" }
+  },
+  "contexts": {
+    "providers_in_App": [
+      { "name": "AuthProvider", "from": "src/contexts/AuthContext.jsx" },
+      {
+        "name": "SidebarContext",
+        "from": "src/contexts/SidebarContext.jsx",
+        "value": "{ open, setOpen }"
+      },
+      {
+        "name": "CurrentPage",
+        "from": "src/contexts/CurrentPageContext.jsx",
+        "value": "{ page, setPage }"
+      },
+      {
+        "name": "NotificationContext",
+        "from": "src/contexts/NotificationContext.jsx",
+        "value": "{ notify, setNotify }"
+      },
+      {
+        "name": "PaymentReceiptContext",
+        "from": "src/contexts/PaymentReceiptContext.jsx",
+        "value": "{ paymentReceipt, setPaymentReceipt }"
+      },
+      {
+        "name": "ShowReceiptContext",
+        "from": "src/contexts/PaymentReceiptContext.jsx",
+        "value": "{ showReceipt, setShowReceipt }"
+      },
+      {
+        "name": "ShowPaymentFormContext",
+        "from": "src/contexts/PaymentFormContext.jsx",
+        "value": "{ showForm, setShowForm }"
+      },
+      {
+        "name": "PaymentFormDetailsContext",
+        "from": "src/contexts/PaymentFormContext.jsx",
+        "value": "{ formDetails, setFormDetails }"
+      },
+      {
+        "name": "PaymentFormPreviewContext",
+        "from": "src/contexts/PaymentFormContext.jsx",
+        "value": "{ paymentFormPreview, setPaymentFormPreview }"
+      }
+    ]
+  },
+  "layouts_components": {
+    "layouts": [
+      "src/components/AuthLayout.jsx",
+      "src/components/DashboardLayout.jsx"
+    ],
+    "guards": ["src/components/ProtectedRoute.jsx"],
+    "forgot_password": [
+      "src/components/ForgotPasswordRequest.jsx",
+      "src/components/ForgotPasswordEmailSent.jsx",
+      "src/components/ForgotPasswordVerify.jsx"
+    ]
+  },
+  "ui_theme": {
+    "fonts": { "primary": "Montserrat", "secondary": "Inter" },
+    "tailwind_extend": {
+      "fontFamily": {
+        "mont": ["Montserrat", "sans-serif"],
+        "inter": ["Inter", "sans-serif"]
+      },
+      "colors": {
+        "base_white": "#f8f8f8",
+        "error": "#FF3446",
+        "warning": "#FC6322",
+        "success": "#44B97B",
+        "brand_color1": "#2D7A51",
+        "brand_color2": "#151E31",
+        "button_primary": "#2D7A51",
+        "button": "#55BB84",
+        "secondary": "#7B7B7B",
+        "contrast": "#A7A7A7",
+        "base_gray": "#DDE5EF",
+        "mid_gray": "#84919A"
+      }
+    },
+    "global_styles": {
+      "file": "src/index.css",
+      "imports": [
+        "https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900",
+        "https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900"
+      ],
+      "autofill_fix": true
+    }
+  },
+  "known_files": {
+    "root": [
+      "package.json",
+      "vite.config.js",
+      "tailwind.config.js",
+      "index.html"
+    ],
+    "app_shell": ["src/App.jsx", "src/main.jsx"],
+    "styles": ["src/index.css", "src/pages/App.css"],
+    "pages": [
+      "src/pages/OverviewPage.jsx",
+      "src/pages/PaymentProcessingPage.jsx",
+      "src/pages/LoginPage.jsx",
+      "src/pages/UserProfilePage.jsx",
+      "src/pages/ReviewsPage.jsx",
+      "src/pages/DisputesPage.jsx",
+      "src/pages/PayoutsPage.jsx",
+      "src/pages/AllTransactionsPage.jsx",
+      "src/pages/ForgotPasswordPage.jsx",
+      "src/pages/NewCredentialsPage.jsx",
+      "src/pages/NotFoundPage.jsx",
+      "src/pages/CreateAdminProfilePage.jsx",
+      "src/pages/CreatePaymentPage.jsx"
+    ],
+    "contexts": [
+      "src/contexts/AuthContext.jsx",
+      "src/contexts/SidebarContext.jsx",
+      "src/contexts/CurrentPageContext.jsx",
+      "src/contexts/NotificationContext.jsx",
+      "src/contexts/PaymentReceiptContext.jsx",
+      "src/contexts/PaymentFormContext.jsx"
+    ],
+    "components": [
+      "src/components/AuthLayout.jsx",
+      "src/components/DashboardLayout.jsx",
+      "src/components/ProtectedRoute.jsx",
+      "src/components/ForgotPasswordRequest.jsx",
+      "src/components/ForgotPasswordEmailSent.jsx",
+      "src/components/ForgotPasswordVerify.jsx"
+    ]
+  },
+  "component_contract": {
+    "inputs": [
+      "feature_brief",
+      "placement_path",
+      "state_shape",
+      "props",
+      "empty/loading/error states",
+      "animation_intent"
+    ],
+    "outputs": [
+      "component_code",
+      "usage_snippet",
+      "edge_cases_notes",
+      "optional_tests"
+    ],
+    "styling": "Tailwind classes with project tokens; match existing naming (e.g., base_white, brand_color1)."
+  },
+  "debug_policy": {
+    "diagnose": [
+      "reproduce quickly",
+      "name exact file/line",
+      "minimal patch",
+      "ideal refactor"
+    ],
+    "ui_consistency": [
+      "use AuthLayout/DashboardLayout where expected",
+      "preserve nested route structure"
+    ],
+    "a11y": [
+      "focus order and keyboard nav in forms",
+      "labels and aria-live for auth errors"
+    ]
+  },
+  "performance": {
+    "render": [
+      "avoid unnecessary re-renders in context consumers",
+      "memoize heavy lists (transactions)"
+    ],
+    "bundling": ["code-split large pages if needed"]
+  },
+  "security": {
+    "auth": "Handled by ProtectedRoute + AuthProvider (details in repo). No secrets in client.",
+    "forms": "Sanitize/validate before API calls."
+  },
+  "env": {
+    "uses_vite_env": true,
+    "required": [],
+    "notes": "No env vars were shown; add `.env.example` for API base and auth endpoints if applicable."
+  },
+  "diagnostics_now": [
+    "Dependency 'motion@^12.23.12' is present. If you intended Framer Motion, the package name should be 'framer-motion'.",
+    "Linting is disabled by script; consider enabling ESLint later."
+  ],
+  "response_contract": {
+    "format": [
+      "Title",
+      "Plan",
+      "Code",
+      "How it works",
+      "Tests (optional)",
+      "Commands",
+      "Assumptions & TODOs"
+    ],
+    "tone": "concise and practical"
+  }
+}

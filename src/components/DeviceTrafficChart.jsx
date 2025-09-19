@@ -1,8 +1,8 @@
 import React from "react";
 import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Cell } from "recharts";
 
-const DeviceTrafficChart = () => {
-  const chartData = [
+const DeviceTrafficChart = ({ data }) => {
+  const fallback = [
     { site: "Linux", traffic: 18000 },
     { site: "Mac", traffic: 28000 },
     { site: "iOS", traffic: 21000 },
@@ -10,6 +10,7 @@ const DeviceTrafficChart = () => {
     { site: "Android", traffic: 10000 },
     { site: "Other", traffic: 25000 },
   ];
+  const chartData = data && data.length ? data : fallback;
 
   const SLICE_COLORS = [
     "#9F9FF8",

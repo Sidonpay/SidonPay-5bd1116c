@@ -2,6 +2,8 @@
 
 Welcome to the SidonPay internal admin dashboard! This is a React-based web application for managing payments, analytics, and user data from our mobile app.
 
+> Development tip: see `mock-server/README.md` for a lightweight local HTTP mock API you can run and point the frontend at via `VITE_API_BASE`.
+
 ## 🎯 What is This Project?
 
 This is an **internal admin dashboard** used by SidonPay staff to:
@@ -246,3 +248,27 @@ Remember: **Quality over speed**. It's better to create one well-built component
 
 
 ---
+
+## Local mock server (development)
+
+For faster front-end development and to simulate a backend API, a small mock server is included at `mock-server/`. It exposes the same endpoints the UI expects and reuses the in-repo mock generators so the responses match the app's expectations.
+
+How to use:
+
+1. Start the mock server (from project root):
+
+```bash
+npm run mock:server
+```
+
+2. Point the frontend to the mock server by setting the environment variable `VITE_API_BASE` (for Vite dev server). Example (bash):
+
+```bash
+export VITE_API_BASE=http://localhost:3333
+npm run dev
+```
+
+When `VITE_API_BASE` is set, API calls in `src/data/adminApi.js` will proxy to the server (endpoints like `/api/payments`, `/api/disputes`, `/api/metrics`, etc.). If the variable is not set, the app continues to use in-memory mocks.
+
+There's also a `mock:server:dev` script that runs the mock server with `nodemon` for auto-reload, and a `mock:server:ci` script (background-friendly) for CI usage.
+
