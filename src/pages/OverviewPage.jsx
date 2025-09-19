@@ -6,6 +6,8 @@ import WebsiteTrafficChart from "../components/WebsiteTrafficChart";
 import LocationTrafficChart from "../components/LocationTrafficChart";
 import DeviceTrafficChart from "../components/DeviceTrafficChart";
 import SalesReportChart from "../components/SalesReportChart";
+import { useEffect } from "react";
+import { fetchMetrics } from "../data/adminApi";
 import NotificationsBlock from "../components/NotificationsBlock";
 import { useContext, useState } from "react";
 import SidebarContext from "../contexts/SidebarContext";
@@ -17,6 +19,16 @@ function OverviewPage() {
   const { open } = useContext(SidebarContext);
   const { notify } = useContext(NotificationContext);
   const [activeChartTab, setActiveChartTab] = useState("tab1")
+  const [metrics, setMetrics] = useState(null)
+
+  useEffect(()=>{
+    let mounted = true;
+    fetchMetrics().then(res=>{
+      if(!mounted) return;
+      if(res.success) setMetrics(res.data)
+    })
+    return ()=>{ mounted = false }
+  },[])
 
   return (
     <AnimatePresence>
@@ -117,7 +129,7 @@ function OverviewPage() {
                   Traffic by Website
                 </h3>
                 <div className="flex items-center h-64">
-                  <WebsiteTrafficChart />
+                  <WebsiteTrafficChart data={metrics?.websiteTraffic} />
                 </div>
               </div>
 
@@ -131,7 +143,7 @@ function OverviewPage() {
                   Traffic by Location
                 </h3>
                 <div className="flex h-64">
-                  <LocationTrafficChart />
+                  <LocationTrafficChart data={metrics?.locationTraffic} />
                 </div>
               </div>
 
@@ -141,7 +153,7 @@ function OverviewPage() {
                   Traffic by Device
                 </h3>
                 <div className="h-64">
-                  <DeviceTrafficChart />
+                  <DeviceTrafficChart data={metrics?.deviceTraffic} />
                 </div>
               </div>
               {/* Sales Charts Row */}
@@ -156,7 +168,7 @@ function OverviewPage() {
                   </button>
                 </div>
                 <div className="h-64">
-                  <SalesReportChart />
+                  <SalesReportChart data={metrics?.monthlySales} />
                 </div>
               </div>
             </div>

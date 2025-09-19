@@ -7,7 +7,12 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "lint": "echo 'Linting skipped for now' && exit 0"
+    "lint": "echo 'Linting skipped for now' && exit 0",
+    "mock:server": "node mock-server/index.js",
+    "mock:server:dev": "nodemon --watch mock-server mock-server/index.js",
+    "mock:server:ci": "node mock-server/index.js &",
+    "mock:server:test": "node mock-server/test-runner.js",
+    "dev:with-mock": "concurrently \"npm run mock:server\" \"cross-env VITE_API_BASE=http://localhost:3333 npm run dev\""
   },
   "dependencies": {
     "lucide-react": "^0.525.0",
@@ -26,6 +31,9 @@
     "@types/react": "^19.1.8",
     "@types/react-dom": "^19.1.6",
     "@vitejs/plugin-react": "^4.6.0",
+    "nodemon": "^3.0.1",
+    "concurrently": "^8.2.0",
+    "cross-env": "^7.0.3",
     "autoprefixer": "^10.4.21",
     "eslint": "^9.30.1",
     "eslint-plugin-react-hooks": "^5.2.0",
