@@ -1,7 +1,7 @@
 import { Check, Ellipsis } from "lucide-react";
 import PropTypes from "prop-types";
 import React from "react";
-import { useState } from 'react'
+import { useState } from "react";
 
 const PaymentDetail = ({
   amount,
@@ -20,7 +20,11 @@ const PaymentDetail = ({
         <input type="checkbox" name="checkbox" id="checkbox" />
       </td>
       <td className="px-3 md:px-4 min-w-fit">
-        {amount.toLocaleString("en-US")}
+        {typeof amount === "number"
+          ? amount.toLocaleString("en-US")
+          : amount != null
+          ? String(amount)
+          : "—"}
       </td>
       <td className="px-3 md:px-4">
         <div
@@ -47,15 +51,30 @@ const PaymentDetail = ({
       <td className="px-3 md:px-4">{date}</td>
       <td className="px-3 md:px-4">
         <div className="relative flex w-fit mx-auto">
-          <button onClick={() => setOpen((v)=>!v)} className="p-1 rounded-full hover:bg-gray-100">
+          <button
+            onClick={() => setOpen((v) => !v)}
+            className="p-1 rounded-full hover:bg-gray-100"
+          >
             <Ellipsis size={20} className="text-brand_color2" />
           </button>
           {open && (
             <div className="absolute right-0 mt-2 bg-white border rounded shadow-md z-50 text-xs">
-              <button className="block px-3 py-2 hover:bg-gray-50 w-full text-left" onClick={() => { setOpen(false); onHide && onHide(); }}>
+              <button
+                className="block px-3 py-2 hover:bg-gray-50 w-full text-left"
+                onClick={() => {
+                  setOpen(false);
+                  onHide && onHide();
+                }}
+              >
                 Hide
               </button>
-              <button className="block px-3 py-2 hover:bg-gray-50 w-full text-left text-red-600" onClick={() => { setOpen(false); onDelete && onDelete(); }}>
+              <button
+                className="block px-3 py-2 hover:bg-gray-50 w-full text-left text-red-600"
+                onClick={() => {
+                  setOpen(false);
+                  onDelete && onDelete();
+                }}
+              >
                 Delete
               </button>
             </div>

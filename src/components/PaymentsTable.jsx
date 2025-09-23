@@ -1,16 +1,19 @@
-import React, { useContext } from 'react'
-import PaymentDetail from './PaymentDetail';
-import PropTypes from 'prop-types';
-import { ArrowLeft, ArrowRight, Ellipsis } from 'lucide-react';
-import { PaymentReceiptContext, ShowReceiptContext } from '../contexts/PaymentReceiptContext';
+import React, { useContext } from "react";
+import PaymentDetail from "./PaymentDetail";
+import PropTypes from "prop-types";
+import { ArrowLeft, ArrowRight, Ellipsis } from "lucide-react";
+import {
+  PaymentReceiptContext,
+  ShowReceiptContext,
+} from "../contexts/PaymentReceiptContext";
 
-const PaymentsTable = ({paymentType, onHide, onDelete}) => {
-  const { setPaymentReceipt } = useContext(PaymentReceiptContext)
-  const { setShowReceipt } = useContext(ShowReceiptContext)
+const PaymentsTable = ({ paymentType, onHide, onDelete }) => {
+  const { setPaymentReceipt } = useContext(PaymentReceiptContext);
+  const { setShowReceipt } = useContext(ShowReceiptContext);
 
   const handleDescriptionClick = (item) => {
-    setPaymentReceipt(item)
-    setShowReceipt(true)
+    setPaymentReceipt(item);
+    setShowReceipt(true);
   };
 
   return (
@@ -36,7 +39,7 @@ const PaymentsTable = ({paymentType, onHide, onDelete}) => {
               key={index}
               amount={item.amount}
               status={item.status}
-              detailsClick={()=>(handleDescriptionClick(item))}
+              detailsClick={() => handleDescriptionClick(item)}
               desc={item.desc}
               customer={item.customer}
               date={item.date}
@@ -46,14 +49,12 @@ const PaymentsTable = ({paymentType, onHide, onDelete}) => {
           ))}
         </tbody>
       </table>
-
-      
     </>
   );
-}
+};
 
 PaymentsTable.propTypes = {
-    paymentsTable: PropTypes.array
-}
+  paymentsTable: PropTypes.array,
+};
 
-export default PaymentsTable
+export default PaymentsTable;

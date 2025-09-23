@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
-import { fetchDisputes } from '../data/adminApi';
+import { fetchDisputes } from "../data/adminApi";
 
 const DisputesPage = () => {
   const [disputes, setDisputes] = useState([]);
@@ -8,13 +8,15 @@ const DisputesPage = () => {
 
   useEffect(() => {
     let mounted = true;
-    fetchDisputes().then(res => {
-      if(!mounted) return;
-      if(res.success) setDisputes(res.data.items || []);
+    fetchDisputes().then((res) => {
+      if (!mounted) return;
+      if (res.success) setDisputes(res.data.items || []);
       setLoading(false);
     });
-    return () => { mounted = false };
-  },[]);
+    return () => {
+      mounted = false;
+    };
+  }, []);
 
   return (
     <AnimatePresence>
@@ -34,16 +36,24 @@ const DisputesPage = () => {
             <p>Loading disputes...</p>
           ) : (
             <div className="grid gap-3">
-              {disputes.map(d => (
+              {disputes.map((d) => (
                 <div key={d.id} className="p-4 border rounded-md">
                   <div className="flex justify-between">
                     <div>
-                      <div className="text-sm font-semibold">{d.id} — {d.reason}</div>
-                      <div className="text-xs text-mid_gray">{d.customer?.name} • {new Date(d.createdAt).toLocaleString()}</div>
+                      <div className="text-sm font-semibold">
+                        {d.id} — {d.reason}
+                      </div>
+                      <div className="text-xs text-mid_gray">
+                        {d.customer?.name} •{" "}
+                        {new Date(d.createdAt).toLocaleString()}
+                      </div>
                     </div>
                     <div className="text-sm">{d.status}</div>
                   </div>
-                  <div className="mt-2 text-xs">Transaction: {d.transactionId} • Amount: ₦{(d.amount/100).toLocaleString()}</div>
+                  <div className="mt-2 text-xs">
+                    Transaction: {d.transactionId} • Amount: ₦
+                    {(d.amount / 100).toLocaleString()}
+                  </div>
                 </div>
               ))}
             </div>
@@ -52,6 +62,6 @@ const DisputesPage = () => {
       </motion.div>
     </AnimatePresence>
   );
-}
+};
 
-export default DisputesPage
+export default DisputesPage;

@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { Funnel, ArrowUp, Calendar } from "lucide-react";
 import PaymentsTable from "../components/PaymentsTable";
@@ -6,7 +6,10 @@ import { fetchPayments } from "../data/paymentsApi";
 import Pagination from "../components/Pagination";
 import DateRangeModal from "../components/DateRangeModal";
 import ReceiptModal from "../components/ReceiptModal";
-import { PaymentReceiptContext, ShowReceiptContext } from "../contexts/PaymentReceiptContext";
+import {
+  PaymentReceiptContext,
+  ShowReceiptContext,
+} from "../contexts/PaymentReceiptContext";
 
 const PAGE_SIZE = 20;
 
@@ -41,19 +44,25 @@ const AllTransactionsPage = () => {
   useEffect(() => {
     let mounted = true;
     const statusMap = {
-      successful: 'SUCCEEDED',
-      uncaptured: 'UNCAPTURED',
-      refunded: 'REFUNDED',
-      all: 'ALL',
+      successful: "SUCCEEDED",
+      uncaptured: "UNCAPTURED",
+      refunded: "REFUNDED",
+      all: "ALL",
     };
-    fetchPayments({ status: statusMap[filterStatus] || 'ALL', page: currentPage, perPage: PAGE_SIZE }).then(res => {
-      if(!mounted) return;
-      if(res.success){
+    fetchPayments({
+      status: statusMap[filterStatus] || "ALL",
+      page: currentPage,
+      perPage: PAGE_SIZE,
+    }).then((res) => {
+      if (!mounted) return;
+      if (res.success) {
         setPaginatedData(res.data.items || []);
         setTotalPages(res.data.pages || 1);
       }
     });
-    return ()=> { mounted = false }
+    return () => {
+      mounted = false;
+    };
   }, [currentPage, filterStatus, dateRange]);
 
   const handleExport = () => {
@@ -138,10 +147,10 @@ const AllTransactionsPage = () => {
             </div>
             <div className="min-w-0 w-full max-w-full mb-8">
               <div className="w-full max-w-full overflow-x-auto">
-                  <PaymentsTable
-                    paymentType={paginatedData}
-                    onInvoiceClick={handleInvoiceClick}
-                  />
+                <PaymentsTable
+                  paymentType={paginatedData}
+                  onInvoiceClick={handleInvoiceClick}
+                />
               </div>
             </div>
             <div className="sticky bottom-0 left-0 bg-base_white z-20 w-full">

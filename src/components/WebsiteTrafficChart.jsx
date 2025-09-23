@@ -1,19 +1,17 @@
-import React from 'react'
+import React from "react";
 
 import { Bar, BarChart, ResponsiveContainer, XAxis, YAxis } from "recharts";
 
 const WebsiteTrafficChart = ({ data }) => {
-
-    const fallback = [
-      { site: "Google", traffic: 60 },
-      { site: "Youtube", traffic: 40 },
-      { site: "Instagram", traffic: 35 },
-      { site: "TikTok", traffic: 30 },
-      { site: "Facebook", traffic: 32 },
-      { site: "Twitter", traffic: 25 },
-    ];
-    const chartData = data && data.length ? data : fallback;
-
+  const fallback = [
+    { site: "Google", traffic: 60 },
+    { site: "Youtube", traffic: 40 },
+    { site: "Instagram", traffic: 35 },
+    { site: "TikTok", traffic: 30 },
+    { site: "Facebook", traffic: 32 },
+    { site: "Twitter", traffic: 25 },
+  ];
+  const chartData = data && data.length ? data : fallback;
 
   return (
     <ResponsiveContainer width="100%" height="100%">
@@ -40,6 +38,6 @@ const WebsiteTrafficChart = ({ data }) => {
       </BarChart>
     </ResponsiveContainer>
   );
-}
+};
 
-export default WebsiteTrafficChart
+export default WebsiteTrafficChart;

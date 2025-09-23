@@ -8,13 +8,15 @@ const ReviewsPage = () => {
 
   useEffect(() => {
     let mounted = true;
-    fetchReviews().then(res => {
-      if(!mounted) return;
-      if(res.success) setReviews(res.data.items || []);
+    fetchReviews().then((res) => {
+      if (!mounted) return;
+      if (res.success) setReviews(res.data.items || []);
       setLoading(false);
     });
-    return () => { mounted = false };
-  },[]);
+    return () => {
+      mounted = false;
+    };
+  }, []);
 
   return (
     <AnimatePresence>
@@ -34,14 +36,20 @@ const ReviewsPage = () => {
             <p>Loading reviews...</p>
           ) : (
             <div className="grid gap-3">
-              {reviews.map(r => (
+              {reviews.map((r) => (
                 <div key={r.id} className="p-4 border rounded-md">
                   <div className="flex justify-between">
                     <div>
-                      <div className="text-sm font-semibold">{r.user?.name} — {r.rating}★</div>
-                      <div className="text-xs text-mid_gray">{new Date(r.createdAt).toLocaleDateString()}</div>
+                      <div className="text-sm font-semibold">
+                        {r.user?.name} — {r.rating}★
+                      </div>
+                      <div className="text-xs text-mid_gray">
+                        {new Date(r.createdAt).toLocaleDateString()}
+                      </div>
                     </div>
-                    <div className="text-xs">{r.resolved ? 'Resolved' : 'Open'}</div>
+                    <div className="text-xs">
+                      {r.resolved ? "Resolved" : "Open"}
+                    </div>
                   </div>
                   <div className="mt-2 text-sm">{r.text}</div>
                 </div>

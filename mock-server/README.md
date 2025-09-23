@@ -1,6 +1,6 @@
 # SidonPay Mock Server
 
-This small Express mock server exposes /api/* endpoints backed by the same in-repo mock generators used by the frontend. It's intended for local development when you want a simple HTTP API to develop against.
+This small Express mock server exposes /api/\* endpoints backed by the same in-repo mock generators used by the frontend. It's intended for local development when you want a simple HTTP API to develop against.
 
 How to run
 
@@ -35,5 +35,6 @@ Available endpoints (examples):
 - GET /api/metrics
 
 Notes
+
 - The server imports the repository's mock data generators so the HTTP responses match what the UI expects.
 - On Windows the server uses file:// imports to load local modules (handled in the implementation).
