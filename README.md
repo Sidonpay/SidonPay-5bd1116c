@@ -246,7 +246,6 @@ Check these files for examples:
 
 Remember: **Quality over speed**. It's better to create one well-built component than five broken ones.
 
-
 ---
 
 ## Local mock server (development)
@@ -271,4 +270,3 @@ npm run dev
 When `VITE_API_BASE` is set, API calls in `src/data/adminApi.js` will proxy to the server (endpoints like `/api/payments`, `/api/disputes`, `/api/metrics`, etc.). If the variable is not set, the app continues to use in-memory mocks.
 
 There's also a `mock:server:dev` script that runs the mock server with `nodemon` for auto-reload, and a `mock:server:ci` script (background-friendly) for CI usage.
-

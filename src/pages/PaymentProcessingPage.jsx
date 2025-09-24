@@ -17,68 +17,81 @@ import { fetchPayments } from "../data/adminApi";
 import PaymentsTable from "../components/PaymentsTable";
 
 const PaymentProcessingPage = () => {
-  const { setPage } = useContext(CurrentPage)
+  const { setPage } = useContext(CurrentPage);
   const [activePaymentsTab, setActivePaymentsTab] = useState("successful_tab");
   const [payments, setPayments] = useState([]);
   const [loading, setLoading] = useState(false);
 
   const tabStatusMap = {
-    successful_tab: 'SUCCEEDED',
-    refunded_tab: 'REFUNDED',
-    uncaptured_tab: 'UNCAPTURED',
-    all_tab: 'ALL'
+    successful_tab: "SUCCEEDED",
+    refunded_tab: "REFUNDED",
+    uncaptured_tab: "UNCAPTURED",
+    all_tab: "ALL",
   };
 
-  useEffect(()=>{
+  useEffect(() => {
     let mounted = true;
-    async function load(){
+    async function load() {
       setLoading(true);
       const status = tabStatusMap[activePaymentsTab];
-      const resp = await fetchPayments({ status, page:1, perPage: 50 });
-      if(!mounted) return;
-      if(resp?.success){
+      const resp = await fetchPayments({ status, page: 1, perPage: 50 });
+      if (!mounted) return;
+      if (resp?.success) {
         // map data shape to PaymentsTable expected props
-        const items = resp.data.items.map(it => ({
-          amount: Math.round((it.amountKobo || 0)/100),
-          status: it.status === 'SUCCEEDED' ? 'Successful' : it.status === 'REFUNDED' ? 'Refunded' : 'Uncaptured',
+        const items = resp.data.items.map((it) => ({
+          amount: Math.round((it.amountKobo || 0) / 100),
+          status:
+            it.status === "SUCCEEDED"
+              ? "Successful"
+              : it.status === "REFUNDED"
+              ? "Refunded"
+              : "Uncaptured",
           desc: it.description || it.narration || it.reference || it.id,
-          customer: it.customerName || it.senderName || '',
+          customer: it.customerName || it.senderName || "",
           date: new Date(it.createdAt).toLocaleString(),
           // keep raw item for details
-          __raw: it
+          __raw: it,
         }));
         setPayments(items);
-      }else{
+      } else {
         setPayments([]);
       }
       setLoading(false);
     }
     load();
-    return ()=>{ mounted=false };
+    return () => {
+      mounted = false;
+    };
   }, [activePaymentsTab]);
 
   // persist hidden/deleted ids in localStorage
-  const HIDDEN_KEY = 'SIDONPAY_HIDDEN_PAYMENTS';
-  const DELETED_KEY = 'SIDONPAY_DELETED_PAYMENTS';
+  const HIDDEN_KEY = "SIDONPAY_HIDDEN_PAYMENTS";
+  const DELETED_KEY = "SIDONPAY_DELETED_PAYMENTS";
 
-  useEffect(()=>{
+  useEffect(() => {
     // on load attach hidden/deleted filters if present
     const hiddenRaw = localStorage.getItem(HIDDEN_KEY);
     const deletedRaw = localStorage.getItem(DELETED_KEY);
     const hidden = hiddenRaw ? JSON.parse(hiddenRaw) : [];
     const deleted = deletedRaw ? JSON.parse(deletedRaw) : [];
-    if((hidden.length || deleted.length) && payments.length){
-      setPayments(p => p.filter(it => !hidden.includes(it.__raw?.id) && !deleted.includes(it.__raw?.id)));
+    if ((hidden.length || deleted.length) && payments.length) {
+      setPayments((p) =>
+        p.filter(
+          (it) =>
+            !hidden.includes(it.__raw?.id) && !deleted.includes(it.__raw?.id)
+        )
+      );
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [payments.length]);
 
-  const persistList = (key, arr) => localStorage.setItem(key, JSON.stringify(arr));
+  const persistList = (key, arr) =>
+    localStorage.setItem(key, JSON.stringify(arr));
 
   const handleHide = (item) => {
     const id = item.__raw?.id || item.id;
-    setPayments(p => p.filter(it => (it.__raw?.id || it.id) !== id));
-    const prev = JSON.parse(localStorage.getItem(HIDDEN_KEY) || '[]');
+    setPayments((p) => p.filter((it) => (it.__raw?.id || it.id) !== id));
+    const prev = JSON.parse(localStorage.getItem(HIDDEN_KEY) || "[]");
     const next = Array.from(new Set([...prev, id]));
     persistList(HIDDEN_KEY, next);
   };
@@ -99,22 +112,22 @@ const PaymentProcessingPage = () => {
   const pushToast = (content, options = {}) => {
     const id = Date.now() + Math.random();
     const t = { id, content, ...options };
-    setToasts(ts => [t, ...ts]);
-    if(options.autoDismiss !== false){
-      setTimeout(()=> setToasts(ts => ts.filter(x=>x.id !== id)), 6000);
+    setToasts((ts) => [t, ...ts]);
+    if (options.autoDismiss !== false) {
+      setTimeout(() => setToasts((ts) => ts.filter((x) => x.id !== id)), 6000);
     }
     return id;
   };
 
   const performDelete = async (item) => {
     const id = item.__raw?.id || item.id;
-    try{
-      const resp = await fetch(`/api/payments/${id}`, { method: 'DELETE' });
+    try {
+      const resp = await fetch(`/api/payments/${id}`, { method: "DELETE" });
       const json = await resp.json();
-      if(!json?.success) throw new Error(json?.error || 'Delete failed');
+      if (!json?.success) throw new Error(json?.error || "Delete failed");
       // remove locally
-      setPayments(p => p.filter(it => (it.__raw?.id || it.id) !== id));
-      const prev = JSON.parse(localStorage.getItem(DELETED_KEY) || '[]');
+      setPayments((p) => p.filter((it) => (it.__raw?.id || it.id) !== id));
+      const prev = JSON.parse(localStorage.getItem(DELETED_KEY) || "[]");
       const next = Array.from(new Set([...prev, id]));
       persistList(DELETED_KEY, next);
 
@@ -122,21 +135,50 @@ const PaymentProcessingPage = () => {
       pushToast(
         <div className="flex items-center gap-3">
           <div className="p-2 rounded bg-button bg-opacity-20">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 2v2" stroke="#151E31" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M12 2v2"
+                stroke="#151E31"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
           </div>
           <div>
-            <div className="text-sm font-semibold text-brand_color2">Payment deleted</div>
-            <button className="text-xs text-secondary underline" onClick={() => {
-              // undo locally: re-add item to payments
-              setPayments(p => [item, ...p]);
-              const deletedPrev = JSON.parse(localStorage.getItem(DELETED_KEY) || '[]').filter(x=>x!==id);
-              persistList(DELETED_KEY, deletedPrev);
-            }}>Undo</button>
+            <div className="text-sm font-semibold text-brand_color2">
+              Payment deleted
+            </div>
+            <button
+              className="text-xs text-secondary underline"
+              onClick={() => {
+                // undo locally: re-add item to payments
+                setPayments((p) => [item, ...p]);
+                const deletedPrev = JSON.parse(
+                  localStorage.getItem(DELETED_KEY) || "[]"
+                ).filter((x) => x !== id);
+                persistList(DELETED_KEY, deletedPrev);
+              }}
+            >
+              Undo
+            </button>
           </div>
-        </div>
-      , { autoDismiss: true });
-    }catch(err){
-      pushToast(<div className="text-sm text-red-600">Failed to delete: {String(err)}</div>, { autoDismiss: true });
+        </div>,
+        { autoDismiss: true }
+      );
+    } catch (err) {
+      pushToast(
+        <div className="text-sm text-red-600">
+          Failed to delete: {String(err)}
+        </div>,
+        { autoDismiss: true }
+      );
     }
   };
 
@@ -165,9 +207,11 @@ const PaymentProcessingPage = () => {
               <ArrowUp size={14} />
               <span className="hidden md:block">Export</span>
             </button>
-            <Link to="/create-payment"
-              className={`flex items-center px-3 gap-1 md:border md:border-light-gray2 bg-button bg-opacity-10 rounded-md hover:bg-button_primary hover:bg-opacity-100 text-brand_color1 font-bold hover:text-white duration-300`} onClick={() => {
-                setPage("Create payment")
+            <Link
+              to="/create-payment"
+              className={`flex items-center px-3 gap-1 md:border md:border-light-gray2 bg-button bg-opacity-10 rounded-md hover:bg-button_primary hover:bg-opacity-100 text-brand_color1 font-bold hover:text-white duration-300`}
+              onClick={() => {
+                setPage("Create payment");
               }}
             >
               <Plus size={14} />
@@ -197,7 +241,11 @@ const PaymentProcessingPage = () => {
             {loading ? (
               <div className="p-6 text-center">Loading...</div>
             ) : (
-              <PaymentsTable paymentType={payments} onHide={handleHide} onDelete={handleDelete} />
+              <PaymentsTable
+                paymentType={payments}
+                onHide={handleHide}
+                onDelete={handleDelete}
+              />
             )}
           </div>
 
@@ -249,14 +297,23 @@ const PaymentProcessingPage = () => {
           visible={showConfirm}
           title="Delete payment"
           message="Are you sure you want to delete this payment? This action cannot be undone."
-          onCancel={() => { setShowConfirm(false); setDeleteTarget(null); }}
-          onConfirm={() => { setShowConfirm(false); performDelete(deleteTarget); setDeleteTarget(null); }}
+          onCancel={() => {
+            setShowConfirm(false);
+            setDeleteTarget(null);
+          }}
+          onConfirm={() => {
+            setShowConfirm(false);
+            performDelete(deleteTarget);
+            setDeleteTarget(null);
+          }}
         />
 
         {/* Toasts */}
         <div className="fixed top-6 right-6 flex flex-col gap-3 z-50">
-          {toasts.map(t => (
-            <div key={t.id} className="bg-white border p-3 rounded shadow-md">{t.content}</div>
+          {toasts.map((t) => (
+            <div key={t.id} className="bg-white border p-3 rounded shadow-md">
+              {t.content}
+            </div>
           ))}
         </div>
       </motion.div>

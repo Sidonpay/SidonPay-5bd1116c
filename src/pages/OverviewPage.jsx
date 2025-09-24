@@ -12,23 +12,27 @@ import NotificationsBlock from "../components/NotificationsBlock";
 import { useContext, useState } from "react";
 import SidebarContext from "../contexts/SidebarContext";
 import NotificationContext from "../contexts/NotificationContext";
-import { overviewChartsTabs, overviewChartsTabContent } from "../components/OverviewChartsTabs";
-
+import {
+  overviewChartsTabs,
+  overviewChartsTabContent,
+} from "../components/OverviewChartsTabs";
 
 function OverviewPage() {
   const { open } = useContext(SidebarContext);
   const { notify } = useContext(NotificationContext);
-  const [activeChartTab, setActiveChartTab] = useState("tab1")
-  const [metrics, setMetrics] = useState(null)
+  const [activeChartTab, setActiveChartTab] = useState("tab1");
+  const [metrics, setMetrics] = useState(null);
 
-  useEffect(()=>{
+  useEffect(() => {
     let mounted = true;
-    fetchMetrics().then(res=>{
-      if(!mounted) return;
-      if(res.success) setMetrics(res.data)
-    })
-    return ()=>{ mounted = false }
-  },[])
+    fetchMetrics().then((res) => {
+      if (!mounted) return;
+      if (res.success) setMetrics(res.data);
+    });
+    return () => {
+      mounted = false;
+    };
+  }, []);
 
   return (
     <AnimatePresence>

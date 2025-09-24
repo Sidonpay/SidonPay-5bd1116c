@@ -1,5 +1,12 @@
 import React from "react";
-import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Cell } from "recharts";
+import {
+  ResponsiveContainer,
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  Cell,
+} from "recharts";
 
 const DeviceTrafficChart = ({ data }) => {
   const fallback = [
