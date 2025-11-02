@@ -11,16 +11,6 @@ cd mock-server
 npm install
 ```
 
-2. Start the server:
-
-```bash
-# from project root
-npm run mock:server
-
-# or for auto-reload (requires nodemon)
-npm run mock:server:dev
-```
-
 Default server URL: http://localhost:3333
 
 Available endpoints (examples):
@@ -38,3 +28,6 @@ Notes
 
 - The server imports the repository's mock data generators so the HTTP responses match what the UI expects.
 - On Windows the server uses file:// imports to load local modules (handled in the implementation).
+  This file has been archived. The authoritative documentation for the project lives in the top-level `README.md` and `PROCESS.md` files.
+
+  If you need the original `mock-server` documentation restored, retrieve it from the Git history or open an issue requesting restoration.
