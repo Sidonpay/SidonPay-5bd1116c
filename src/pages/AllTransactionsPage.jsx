@@ -11,6 +11,12 @@ import {
   ShowReceiptContext,
 } from "../contexts/PaymentReceiptContext";
 
+// ❌ Remove this top-level handler (it cannot access context here)
+// const handleInvoiceClick = (payment) => {
+//   setPaymentReceipt(payment);   // store the selected transaction
+//   setShowReceipt(true);         // open the modal
+// };
+
 const PAGE_SIZE = 20;
 
 const FILTER_OPTIONS = [
@@ -53,6 +59,8 @@ const AllTransactionsPage = () => {
       status: statusMap[filterStatus] || "ALL",
       page: currentPage,
       perPage: PAGE_SIZE,
+      startDate: dateRange.startDate,
+      endDate: dateRange.endDate,
     }).then((res) => {
       if (!mounted) return;
       if (res.success) {
@@ -65,8 +73,51 @@ const AllTransactionsPage = () => {
     };
   }, [currentPage, filterStatus, dateRange]);
 
+  // ✅ CSV Export Implementation
   const handleExport = () => {
-    alert("Export clicked!");
+    if (!paginatedData.length) {
+      alert("No transactions to export!");
+      return;
+    }
+
+    const headers = [
+      "Amount",
+      "Status",
+      "Description",
+      "Customer",
+      "Date",
+      "Reference",
+    ];
+
+    const rows = paginatedData.map((item) => [
+      item.amount,
+      item.status,
+      item.desc || item.description || "",
+      item.customer || item.customerName || "",
+      item.date || item.createdAt,
+      item.reference || "",
+    ]);
+
+    const csvContent =
+      [headers, ...rows]
+        .map((row) =>
+          row
+            .map((cell) =>
+              typeof cell === "string" ? `"${cell.replace(/"/g, '""')}"` : cell
+            )
+            .join(",")
+        )
+        .join("\n");
+
+    const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
+
+    const link = document.createElement("a");
+    link.href = url;
+    link.setAttribute("download", `transactions_page_${currentPage}.csv`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   };
 
   const handleDateApply = ({ startDate, endDate }) => {
@@ -84,7 +135,7 @@ const AllTransactionsPage = () => {
     setCurrentPage(1);
   };
 
-  // Handle invoice click to show receipt modal
+  // ✅ Correct handler inside component (has access to context)
   const handleInvoiceClick = (payment) => {
     setPaymentReceipt(payment);
     setShowReceipt(true);
@@ -118,7 +169,6 @@ const AllTransactionsPage = () => {
                   <Funnel size={16} />
                   <span className="hidden md:block">Filter</span>
                 </button>
-                {/* Filter Dropdown */}
                 {showFilterDropdown && (
                   <div className="absolute top-10 right-0 bg-white border rounded shadow-lg z-50 min-w-[140px]">
                     {FILTER_OPTIONS.map((option) => (
@@ -147,6 +197,7 @@ const AllTransactionsPage = () => {
             </div>
             <div className="min-w-0 w-full max-w-full mb-8">
               <div className="w-full max-w-full overflow-x-auto">
+                {/* ✅ Pass handler down to table */}
                 <PaymentsTable
                   paymentType={paginatedData}
                   onInvoiceClick={handleInvoiceClick}
@@ -167,6 +218,7 @@ const AllTransactionsPage = () => {
           onClose={() => setShowDateModal(false)}
           onApply={handleDateApply}
         />
+        {/* ✅ Modal listens to context */}
         <ReceiptModal />
       </motion.div>
     </AnimatePresence>

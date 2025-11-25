@@ -8,6 +8,8 @@ export async function fetchPayments({
   page = 1,
   perPage = 15,
   delayMs = 250,
+  startDate = null,   // ✅ add this
+  endDate = null, 
 } = {}) {
   await sleep(delayMs);
 
@@ -15,6 +17,13 @@ export async function fetchPayments({
 
   if (status !== "ALL") {
     data = data.filter((p) => p.status === status);
+  }
+
+  if (startDate && endDate) {
+    data = data.filter((p) => {
+      const created = new Date(p.createdAt);
+      return created >= new Date(startDate) && created <= new Date(endDate);
+    });
   }
 
   const q = search.trim().toLowerCase();
