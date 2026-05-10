@@ -137,6 +137,13 @@ app.get("/api/reviews", (req, res) => {
   res.json({ success: true, data: { items, page, perPage, total, pages } });
 });
 
+app.get("/api/reviews/:id", (req, res) => {
+  const item = getReviewById(req.params.id);
+  if (!item)
+    return res.status(404).json({ success: false, error: "Not found" });
+  res.json({ success: true, data: item });
+});
+
 app.get("/api/users", (req, res) => {
   res.json({ success: true, data: USERS });
 });

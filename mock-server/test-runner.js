@@ -1,4 +1,3 @@
-import fetch from "node-fetch";
 import { spawn } from "child_process";
 
 const server = spawn("node", ["mock-server/index.js"], { stdio: "inherit" });
@@ -19,6 +18,13 @@ async function run() {
       (r) => r.json()
     );
     if (!payments?.success) throw new Error("payments endpoint failed");
+    const reviewId = "RV-000001";
+    const review = await fetch(
+      `http://localhost:3333/api/reviews/${reviewId}`
+    ).then((r) => r.json());
+    if (!review?.success || review?.data?.id !== reviewId) {
+      throw new Error("review detail endpoint failed");
+    }
     console.log("Smoke tests passed");
     process.exit(0);
   } catch (err) {

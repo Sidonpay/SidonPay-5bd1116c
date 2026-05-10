@@ -1,33 +1,65 @@
 # SidonPay Mock Server
 
-This small Express mock server exposes /api/\* endpoints backed by the same in-repo mock generators used by the frontend. It's intended for local development when you want a simple HTTP API to develop against.
+This Express server exposes the same `/api/*` routes the admin dashboard expects during local development.
 
-How to run
+It is backed by the in-repo mock generators in `src/data`, so the responses stay close to the current frontend contract.
 
-1. Install mock-server deps (from project root):
+## Run locally
+
+From the repository root:
 
 ```bash
-cd mock-server
-npm install
+npm run mock:server
 ```
 
-Default server URL: http://localhost:3333
+Or from inside `mock-server/`:
 
-Available endpoints (examples):
+```bash
+npm install
+node index.js
+```
 
-- GET /api/payments?status=ALL&page=1&perPage=15
-- GET /api/payments/:id
-- GET /api/disputes
-- GET /api/disputes/:id
-- GET /api/reviews
-- GET /api/users
-- GET /api/users/:id
-- GET /api/metrics
+Default server URL:
 
-Notes
+```text
+http://localhost:3333
+```
 
-- The server imports the repository's mock data generators so the HTTP responses match what the UI expects.
-- On Windows the server uses file:// imports to load local modules (handled in the implementation).
-  This file has been archived. The authoritative documentation for the project lives in the top-level `README.md` and `PROCESS.md` files.
+## Frontend integration
 
-  If you need the original `mock-server` documentation restored, retrieve it from the Git history or open an issue requesting restoration.
+Point the frontend at the mock server with:
+
+```bash
+VITE_API_BASE=http://localhost:3333 npm run dev
+```
+
+Or run both together:
+
+```bash
+npm run dev:with-mock
+```
+
+## Routes
+
+- `GET /api/payments?status=ALL&page=1&perPage=15&search=invoice`
+- `GET /api/payments/:id`
+- `DELETE /api/payments/:id`
+- `GET /api/disputes`
+- `GET /api/disputes/:id`
+- `GET /api/reviews`
+- `GET /api/reviews/:id`
+- `GET /api/users`
+- `GET /api/users/:id`
+- `GET /api/metrics`
+
+## Backend handoff
+
+For the backend provisioning guide based on this mock contract, see:
+
+- `mock-server/BACKEND_API_PROVISIONING_GUIDE.md`
+
+## Notes
+
+- The mock server imports data from `src/data/*.mock.js`
+- `src/data/adminApi.js` is the main compatibility layer the frontend uses when `VITE_API_BASE` is set
+- Some app areas are still frontend-only placeholders; the guide above calls those out explicitly
